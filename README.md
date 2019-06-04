@@ -20,7 +20,7 @@ Clone or download project to htdocs (or other server similar)
 ### Bootstrap Look and Feel
 
 # Support
-..
+Support available via GitHub Issues. 
 
 # License & Copyright
 Copyright 2019 pj1985
