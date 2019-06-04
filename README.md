@@ -9,7 +9,16 @@ Main goal of the Raspberry is to create UI very fast and with as little code (or
 - PHP7
 - Database MySQL, MS SQL (needs driver), Oracle (needs driver)
 
+## Install
+Clone or download project to htdocs (or other server similar)
+
+## Configure
+### Database Configuration
+
+### Bootstrap Look and Feel
+
 # Support
+..
 
 # License & Copyright
 Copyright 2019 pj1985
