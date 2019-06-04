@@ -4,11 +4,16 @@ Raspberry is low-code/configuration framework for creating responsive web fronte
 
 Main goal of the Raspberry is to create UI very fast and with as little code (or configuration) as possible. Framework can be used for fast prototyping or for creating rich user interface for various database tools.
 
-# Install
+# Install & Configuration
+## Requirements
+- PHP7
+- Database MySQL, MS SQL (needs driver), Oracle (needs driver)
 
-
+# Support
 
 # License & Copyright
 Copyright 2019 pj1985
 
 This project is licensed under the GPL http://www.gnu.org/licenses/gpl.txt
+
+Raspberry utilizes the Fat-Free PHP Framework (https://fatfreeframework.com)
