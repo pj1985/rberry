@@ -14,7 +14,9 @@ Clone or download project to htdocs (or other server similar)
 
 ## Configure
 ### Database Configuration
-
+#### MS SQL
+#### MySQL
+#### Oracle
 ### Bootstrap Look and Feel
 
 # Support
