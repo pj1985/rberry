@@ -9,20 +9,8 @@ Raspberry is low-code/configuration framework for creating responsive web fronte
 
 Main goal of the Raspberry is to create UI very fast and with as little code (or configuration) as possible. Framework can be used for fast prototyping or for creating rich user interface for various database tools.
 
-# Install & Configuration
-## Requirements
-- PHP7
-- Database MySQL, MS SQL (needs driver), Oracle (needs driver)
-
-## Install
-Clone or download project to htdocs (or other server similar)
-
-## Configure
-### Database Configuration
-#### MS SQL
-#### MySQL
-#### Oracle
-### Bootstrap Look and Feel
+* [Installation and Configuration](https://github.com/pj1985/rberry/wiki/Get-Started) 
+* [Quick User Guide](https://github.com/pj1985/rberry/wiki/Quick-User-Guide)
 
 # Support
 Support available via GitHub Issues. 
