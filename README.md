@@ -15,11 +15,11 @@ Main goal of the Raspberry is to create UI very fast and with as little code (or
 * [Installation and Configuration](https://github.com/pj1985/rberry/wiki/Get-Started) 
 * [Quick User Guide](https://github.com/pj1985/rberry/wiki/Quick-User-Guide)
 
-# Disclaimer
-This project is a work in progress. There's still a lot of features waiting to be implemented.. If you like to help, let me know :)
-
 # Support
 Support available via GitHub Issues. 
+
+### Disclaimer
+This project is a work in progress. There's still a lot of features waiting to be implemented.. If you like to help, let me know :)
 
 # License & Copyright
 Copyright 2019 pj1985
