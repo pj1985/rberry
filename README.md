@@ -2,7 +2,7 @@
   <img  width="150" src="https://github.com/pj1985/rberry/blob/master/rberry_mid.png">
 </p>
  
- 
+
  
 # Raspberry UI Framework
 Raspberry is low-code/configuration framework for creating responsive web frontend for common database systems using Bootstrap CSS templates. Raspberry is focused on developers with database background with basic knowledge of FE technologies like Bootstrap and JQuery/Javascript. 
@@ -14,6 +14,9 @@ Main goal of the Raspberry is to create UI very fast and with as little code (or
 
 * [Installation and Configuration](https://github.com/pj1985/rberry/wiki/Get-Started) 
 * [Quick User Guide](https://github.com/pj1985/rberry/wiki/Quick-User-Guide)
+
+# Disclaimer
+This project is a work in progress. There's still a lot of features waiting to be implemented.. If you like to help, let me know :)
 
 # Support
 Support available via GitHub Issues. 
