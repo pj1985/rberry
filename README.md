@@ -20,7 +20,9 @@ Framework can be used for fast prototyping or for creating rich user interface f
 - **Execute SQL statements** - before page load or after page submit with data from the pages
 ---
 <img src="https://github.com/pj1985/rberry/blob/master/screen.png">
+
 ---
+
 Main goal of the Raspberry is to create UI very fast and with as little code (or configuration) as possible. Every Raspberry applications consists from page configurations (one JSON file per page), from which the pages are rendered based on names provided in URL. 
 
 Raspberry provides single-site Screen Creator with live page preview, where user define page elements tree (regions hierarchy, buttons, inputs, tables,..) and what should be done before page renders and after page submits (validations, processes).
