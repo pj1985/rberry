@@ -10,9 +10,9 @@ Raspberry is low-code/configuration framework for creating responsive web fronte
 Framework can be used for fast prototyping or for creating rich user interface for various database tools.
 
 ### Elements, that can be used in the pages include: ###
-- **Tables and Data Cards** - data loaded based on the SQL queries, tables contain paging and sorting
+- **Tables and Data Cards** - results from the SQL queries, tables contain paging and sorting
 - **Charts** - charts.js charts rendered from the SQL queries
-- **Form Components** - input fields, buttons, text areas
+- **Form Components** - input fields, buttons, text areas, select,..
 
 ### With before and after actions you can: ###
 - **Load data** into form inputs
