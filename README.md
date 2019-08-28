@@ -21,11 +21,8 @@ Framework can be used for fast prototyping or for creating rich user interface f
 
 
 <img width="49%" src="https://github.com/pj1985/rberry/blob/master/wiki_img/screen_creator.png">
-<p align="center"><b>Design page in Screen creator</b></p>
-
 <img width="49%" src="https://github.com/pj1985/rberry/blob/master/wiki_img/screen.png">
-<p align="center"><b>Run the page in browser</b></p>
-
+<p align="center"><b>Design page in Screen creator</b></p>
 
 Main goal of the Raspberry is to create UI very fast and with as little code (or configuration) as possible. Every Raspberry applications consists from page configurations (one JSON file per page), from which the pages are rendered based on names provided in URL. 
 
