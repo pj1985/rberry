@@ -20,10 +20,10 @@ Framework can be used for fast prototyping or for creating rich user interface f
 - **Execute SQL statements** - before page load or after page submit with data from the pages
 
 
-<img src="https://github.com/pj1985/rberry/blob/master/wiki_img/screen_creator.png">
+<img width="49%" src="https://github.com/pj1985/rberry/blob/master/wiki_img/screen_creator.png">
 <p align="center"><b>Design page in Screen creator</b></p>
 
-<img src="https://github.com/pj1985/rberry/blob/master/wiki_img/screen.png">
+<img width="49%" src="https://github.com/pj1985/rberry/blob/master/wiki_img/screen.png">
 <p align="center"><b>Run the page in browser</b></p>
 
 
