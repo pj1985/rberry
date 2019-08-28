@@ -33,7 +33,7 @@ Raspberry provides single-site Screen Creator with live page preview, where user
 
 
 ### [Installation and Configuration](https://github.com/pj1985/rberry/wiki/Get-Started) ###
-### [Quick User Guide](https://github.com/pj1985/rberry/wiki/Quick-User-Guide) ###
+### [Usage](https://github.com/pj1985/rberry/wiki/Get-Started#usage) ###
 
 # Support
 Support available via GitHub Issues. 
