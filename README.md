@@ -30,8 +30,8 @@ Main goal of the Raspberry is to create UI very fast and with as little code (or
 Raspberry provides single-site Screen Creator with live page preview, where user define page elements tree (regions hierarchy, buttons, inputs, tables,..) and what should be done before page renders and after page submits (validations, processes).
 
 
-### [Installation and Configuration](https://github.com/pj1985/rberry/wiki/Get-Started) ###
-### [Usage](https://github.com/pj1985/rberry/wiki/Get-Started#usage) ###
+- ### [Installation and Configuration](https://github.com/pj1985/rberry/wiki/Get-Started) ###
+- ### [Usage](https://github.com/pj1985/rberry/wiki/Get-Started#usage) ###
 
 # Support
 Support available via GitHub Issues. 
