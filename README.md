@@ -25,7 +25,7 @@ Framework can be used for fast prototyping or for creating rich user interface f
 
 <p align="center"><b>Design page in Screen creator</b></p>
 
-Main goal of the Raspberry is to create UI very fast and with as little code (or configuration) as possible. Every Raspberry applications consists from page configurations (one JSON file per page), from which the pages are rendered based on names provided in URL. 
+Main goal of the Raspberry is to create UI very fast and with as little code (or configuration) as possible. Every Raspberry application contains page configurations (one JSON file per page), from which the html pages are rendered. 
 
 Raspberry provides single-site Screen Creator with live page preview, where user define page elements tree (regions hierarchy, buttons, inputs, tables,..) and what should be done before page renders and after page submits (validations, processes).
 
