@@ -1,5 +1,5 @@
 <p align="right">
-  <img  width="150" src="https://github.com/pj1985/rberry/blob/master/doc/img/rberry_mid.png">
+  <img  width="150" src="https://github.com/pj1985/rberry/blob/master/docs/img/rberry_mid.png">
 </p>
  
 
@@ -20,7 +20,7 @@ Framework can be used for fast prototyping or for creating rich user interface f
 - **Execute SQL statements** - before page load or after page submit with data from the pages
 
 <p align="center">
-<img src="https://github.com/pj1985/rberry/blob/master/doc/img/comp_creator.png">
+<img src="https://github.com/pj1985/rberry/blob/master/docs/img/comp_creator.png">
 </p>
 
 <p align="center"><b>Design page in Screen creator</b></p>
