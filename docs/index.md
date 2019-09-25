@@ -1,4 +1,4 @@
-<p align="center">
+<p align="right">
   <img  width="200" src="img/rberry_mid.png">
 </p>
  
