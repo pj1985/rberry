@@ -2,7 +2,7 @@
   <img  width="200" src="img/rberry_mid.png">
 </p>
  
-
+<h1 class="display-4">Display 4</h1>
  
 # Raspberry UI Framework
 Raspberry is low-code/configuration framework for creating responsive web frontend for common database systems using Bootstrap CSS templates. Raspberry is focused on developers with database background with basic knowledge of FE technologies like Bootstrap and JQuery/Javascript. 
@@ -40,12 +40,12 @@ Support available via GitHub Issues.
 This project is a work in progress. There's still a lot of features waiting to be implemented.. If you like to help, let me know :)
 
 # License & Copyright
-Copyright 2019 pj1985
+Copyright 2019 [pj1985](https://github.com/pj1985)
 
-This project is licensed under the GPL http://www.gnu.org/licenses/gpl.txt
+This project is licensed under the [GPL](http://www.gnu.org/licenses/gpl.txt)
 
 Raspberry utilizes and includes: 
- - Fat-Free PHP Framework (https://fatfreeframework.com)
- - Bootstrap Table (https://github.com/wenzhixin/bootstrap-table)
- - localStorage (https://github.com/jaywcjlove/store.js)
- - jquery-resizable-columns (https://github.com/dobtco/jquery-resizable-columns)
+ - [Fat-Free PHP Framework](https://fatfreeframework.com)
+ - [Bootstrap Table ](https://github.com/wenzhixin/bootstrap-table)
+ - [localStorage](https://github.com/jaywcjlove/store.js)
+ - [jquery-resizable-columns](https://github.com/dobtco/jquery-resizable-columns)
