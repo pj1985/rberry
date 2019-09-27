@@ -1,7 +1,7 @@
 <div>
- <span>![UI]({{ site.baseurl }}/img/comp_example.png"Generated GUI")</span>
+ <span width="50%"><img src="{{ site.baseurl }}/img/comp_example.png"></span>
 <span>
- ### Fast and easy way to create rich user interface###
+ <h1> Fast and easy way to create rich user interface </h1>
 </span>
 </div>
 ### Elements, that can be used in the pages include: ###
