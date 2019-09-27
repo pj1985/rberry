@@ -1,10 +1,9 @@
-
- 
-# Raspberry UI Framework
-Raspberry is low-code/configuration framework for creating responsive web frontend for common database systems using Bootstrap CSS templates. Raspberry is focused on developers with database background with basic knowledge of FE technologies like Bootstrap and JQuery/Javascript. 
-
-Framework can be used for fast prototyping or for creating rich user interface for various database tools.
-
+<div>
+ <span>![UI]({{ site.baseurl }}/img/comp_example.png"Generated GUI")</span>
+<span>
+ ### Fast and easy way to create rich user interface###
+</span>
+</div>
 ### Elements, that can be used in the pages include: ###
 - **Tables and Data Cards** - results from the SQL queries, tables contain paging and sorting
 - **Charts** - charts.js charts rendered from the SQL queries
