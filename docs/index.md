@@ -1,9 +1,20 @@
-<div>
- <span width="50%"><img src="{{ site.baseurl }}/img/comp_example.png"></span>
-<span>
- <h1> Fast and easy way to create rich user interface </h1>
-</span>
-</div>
+## Main goal of the Raspberry is to create rich user interface very fast and with as little code and configuration as possible. ## 
+
+![i]({{ site.baseurl }}/img/comp_example.png "an image title")
+<p align="center">UI Generated with Raspberry</p>
+
+## Raspberry is focused on developers with database background with basic knowledge of Javascript and CSS. Pages are configured in the browser-based Screen creator ##
+ 
+![i]({{ site.baseurl }}/img/screen_creator2.png "an image title")
+<p align="center">Screen Creator</p>
+
+ ## Framework can be used for fast prototyping or for creating rich user interface for various database tools. ##
+
+
+Every Raspberry application contains page configurations (one JSON file per page), from which the html pages are rendered. ##
+ 
+
+ 
 ### Elements, that can be used in the pages include: ###
 - **Tables and Data Cards** - results from the SQL queries, tables contain paging and sorting
 - **Charts** - charts.js charts rendered from the SQL queries
