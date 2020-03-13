@@ -1,0 +1,32 @@
+ <check if="{{ @T_CODE=='JS CHECK' }}">
+	<check if="{{ @T_CHECK->el != '' }}">			 
+				
+				$('#{{ @T_CHECK->el }}').removeClass('is-invalid');			 
+	</check>
+ 
+	<check if="{{ @T_CHECK->btn != '' }}"> 
+		if ($('#y_btn_click').val() == '{{ @T_CHECK->btn }}') 
+	</check>
+ 
+	if ({{ @T_CHECK->code | raw }}) {	
+	
+		set_toast(get_label('{{ @T_CHECK->el }}'), '{{ @T_CHECK->message }}', '{{ @T_CHECK->level }}');
+		<check if="{{ @T_CHECK->el != '' }}">
+			<check if="{{ @T_CHECK->level == 'info' }}">
+				<true>$('#{{ @T_CHECK->el }}').addClass('is-valid');</true>
+				<false>$('#{{ @T_CHECK->el }}').addClass('is-invalid');</false>
+			</check>
+		</check>
+		<check if="{{ @T_TP == 'AFTER' }}">
+			<check if="{{ @T_CHECK->level = 'danger'}}">
+				ret = false;
+			</check>
+		</check>
+	}
+	else {
+		<check if="{{ @T_CHECK->el != '' }}">
+			$('#{{ @T_CHECK->el }}').addClass('is-valid');
+		</check>
+		console.log('');
+	}
+</check>

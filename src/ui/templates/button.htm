@@ -1,0 +1,48 @@
+<check if="{{ @T_CODE=='button' }}">
+ 	<button id="{{ @T_ID }}" type="button" class="btn 
+	{{ @T_COMMON }}
+	<check if="{{ @T_GUI->color != '' }}">
+		btn-{{ @T_GUI->color }} 
+	 </check>
+	<check if="{{ @T_GUI->size != '' }}">
+		btn-{{ @T_GUI->size }} 
+	 </check>
+	 <check if="{{ @T_GUI->goto_page != '' }}">
+		y_btn_goto
+	 </check>
+	 <check if="{{ @T_GUI->refresh != '' }}">
+		y_btn_refresh
+	 </check>
+	 {{ @T_GUI->class }}
+	 <check if="{{ @T_GUI->ignore_valid == 'Y' }}">
+		y_ignore_valid
+	 </check>
+	 "
+	data-toggle="tooltip"  data-placement="top" title="{{ @T_GUI->tooltip }}"
+	>
+	<check if="{{ @T_GUI->fa != '' }}">
+	<span class="icon {{ @T_GUI->fa }}"></span>
+	</check>
+	{{ @T_GUI->label }}
+	<check if="{{ @T_GUI->badge_text != '' }}">
+		<span class="badge badge-{{ @T_GUI->badge_color }}">{{ @T_GUI->badge_text }}</span>
+	 </check>
+	<check if="{{ @T_GUI->modal != '' }}">
+	<script>
+		$("#{{ @T_ID }}").on('click', function(e) {
+			$('#ym_<check if="{{ @T_MODE == 'dev' }}">xx_</check>{{ @T_GUI->modal }}').modal({
+				backdrop: 'static',
+				keyboard: false
+			});
+		});		
+	</script>
+	</check>
+	<check if="{{ @T_GUI->click_js != '' }}">
+	<script>
+		$("#{{ @T_ID }}").on('click', function(e) {
+			{{ @T_GUI->click_js }} 
+		});		
+	</script>
+	</check>
+	</button>
+</check>

@@ -1,0 +1,540 @@
+
+<input type="hidden" name="y_btn_click" id="y_btn_click">
+</form>
+</div>
+</div>
+<script>
+/**
+ * Custom sorting function for bootstrap table.
+ * Not used, because sorting is on backend.
+ */
+function sort_table (sortName, sortOrder, data) {
+	//ext_get_table_data
+}
+/**
+ * Formating function for table column for progress bar
+ * @value {Numeric} Value for progress bar (%)
+ * @row {Numeric} Row number from table. Not used yet.
+ */
+function column_Progress(value, row) {
+    return '<div class="progress"> \
+	<div class="progress-bar bg-primary " role="progressbar" style="width: '+value+'%" aria-valuenow="+value+" aria-valuemin="0" aria-valuemax="100"></div> \
+	</div>';
+}
+/**
+ * Formating function for table column for Yes/No icon
+ * @value {Numeric} Value - Y or N
+ * @row {Numeric} Row number from table. Not used yet.
+ */
+function column_Yn(value, row) {
+	if (value === 'Y') return '<span class="icon m-1 h4 text-success fa-check-circle "></span>';
+	if (value === 'N') return '<span class="icon m-1  h4 text-danger fa-times-circle"></span>';
+}
+/**
+ * Formating function for table column for Long columns
+ * @value {Numeric} Value is full length text, that is stored as tooltip
+ * @row {Numeric} Row number from table. Not used yet.
+ */
+function column_Long(value, row) {
+	return '<span class="y_tab_long" style="overflow:hidden;text-overflow:ellipsis;display:inline-block;white-space:nowrap;max-width: 10rem;" \
+	data-toggle="tooltip"  data-placement="top" title="' + value + '" \
+	>' + value + '</span>'; 
+}
+/**
+ * Formating function for table column for Font Awesome icon
+ * @value {Numeric} Value - font awesome class
+ * @row {Numeric} Row number from table. Not used yet.
+ */
+function column_Fa(value, row) {
+    return '<span class="icon m-1 ' + value + '"></span>'
+}
+/**
+ * Get data for table from backend
+ * @i_tab {String} Table identificator
+ * @i_sort {String} Sort column
+ * @i_page {String} Current page
+ */
+function ext_get_table_data(i_tab){
+	const res = $('#y_binds_' + i_tab).val().split(",");
+	let binds = {};
+	jQuery.each(res, function(i, val) {
+		if (val !== ""){
+			if ($('[name="'+val+'"]').is(":radio")){
+				if ($('[name="'+val+'"]:checked').val()) binds[':'+val] = $('[name="'+val+'"]:checked').val();
+				else binds[':'+val] = '';
+			} else {
+				if ($('[name="'+val+'"]').val()) binds[':'+val] = $('[name="'+val+'"]').val();			
+				else binds[':'+val] = '';
+			}
+		}
+	});
+ 
+	const CookieSortName = Cookies.get("{{ @PATH }}_y_tb_" + i_tab + ".bs.table.sortName");
+	const CookieSortOrder = Cookies.get("{{ @PATH }}_y_tb_" + i_tab + ".bs.table.sortOrder");
+	const CookiePage = (Cookies.get("{{ @PATH }}_y_tb_" + i_tab + ".table.page")?Cookies.get("{{ @PATH }}_y_tb_" + i_tab + ".table.page"):'1');
+	const CookieRows = (Cookies.get("{{ @PATH }}_y_tb_" + i_tab + ".table.rows")?Cookies.get("{{ @PATH }}_y_tb_" + i_tab + ".table.rows"):$('#y_tb_rows_' + i_tab).val());
+	
+	console.log('refresh:'+i_tab+';'+CookieSortName+';'+CookieSortOrder+';'+CookiePage+';'+CookieRows);
+	let order = '';
+	if (CookieSortName) order = CookieSortName + ' ' + CookieSortOrder;
+ 	
+	$('#y_spinner').removeClass('d-none');
+	$.post('{{ @path_core }}/{{ @T_APP }}/get_table_data', { 
+		page: $('#y_page').val(),
+		el_id: i_tab,
+		tab_sort: order, 
+		tab_page: CookiePage,//i_page,
+		tab_rows: CookieRows,//$('#y_tb_rows_' + i_tab).val(),
+		binds:binds
+	}).done (function (data) {
+		
+		const j = JSON.parse(data);
+		$('#y_tb_'+i_tab).bootstrapTable('load', j);
+		 
+		refresh_listeners(i_tab);
+		
+		const sel = Cookies.get("{{ @PATH }}_y_tb_"+i_tab+".table.selected", '');
+		if (sel != ''){
+			$('#y_tb_'+i_tab).find('input').each(function (i) {
+				if ( $(this).val() === sel){
+					$(this).prop('checked', true);
+					$(this).closest('tr').addClass('selected');
+					$('#'+i_tab).val($(this).val());
+					ext_get_refresh(i_tab);
+					return false;
+				}
+				
+			});
+		}
+		$('#y_spinner').addClass('d-none');
+		
+		return; 
+	}).fail(function (xhr, status, error) {
+		set_toast('GET TABLE DATA', error, 'danger');
+		$('.toast').toast({delay:10000});
+		$('.toast').toast('show');
+		$('#y_spinner').addClass('d-none');
+	}); 
+}
+/**
+ * Get data for chart from backend
+ * @i_chart {String} Chart identificator
+ */
+function ext_get_chart_data(i_chart){
+	const res = $('#y_binds_' + i_chart).val().split(",");
+	let binds = {};
+	
+	jQuery.each(res, function(i, val) {
+		if (val !== ""){
+			if ($('[name="'+val+'"]').is(":radio")){
+				if ($('[name="'+val+'"]:checked').val()) binds[':'+val] = $('[name="'+val+'"]:checked').val();
+				else binds[':'+val] = '';
+			} else {
+				if ($('[name="'+val+'"]').val()) binds[':'+val] = $('[name="'+val+'"]').val();
+				else binds[':'+val] = '';
+			}
+		}
+	});
+	
+	$('#y_spinner').removeClass('d-none');
+	$.post('{{ @path_core }}/{{ @T_APP }}/get_chart_data', { 
+		page: $('#y_page').val(),
+		el_id: i_chart,
+		binds: binds
+	}).done (function (data) {
+		const j = JSON.parse(data);
+		chart_cfg[i_chart].data = j;
+		chart[i_chart].update();
+		
+		$('#y_spinner').addClass('d-none');
+	}).fail(function (xhr, status, error) {
+		set_toast('GET CHART DATA', error, 'danger');
+		$('.toast').toast({delay:10000});
+		$('.toast').toast('show');
+		$('#y_spinner').addClass('d-none');
+	}); 
+}
+/**
+ * Get data for data card from backend
+ * @i_card {String} Card identificator
+ */
+function ext_get_datacard_data(i_card){
+	const res = $('#y_binds_' + i_card).val().split(",");
+	let binds = {};
+	jQuery.each(res, function(i, val) {
+		if (val !== ""){
+			if ($('[name="'+val+'"]').is(":radio")){
+				if ($('[name="'+val+'"]:checked').val()) binds[':'+val] = $('[name="'+val+'"]:checked').val();
+				else binds[':'+val] = '';
+			} else {
+				if ($('[name="'+val+'"]').val()) binds[':'+val] = $('[name="'+val+'"]').val();			
+				else binds[':'+val] = '';
+			}
+		}
+	});
+	
+	$('#y_spinner').removeClass('d-none');
+	$.post('{{ @path_core }}/{{ @T_APP }}/get_datacard_data', { 
+		page: $('#y_page').val(),
+		el_id: i_card,
+		binds: binds
+	}).done (function (data) {
+		$('#' + i_card).html(data);
+		$('#y_spinner').addClass('d-none');
+	}).fail(function (xhr, status, error) {
+		set_toast('GET DATACARD DATA', error, 'danger');
+		$('.toast').toast({delay:10000});
+		$('.toast').toast('show');
+		$('#y_spinner').addClass('d-none');
+	}); 
+}
+/**
+ * Get data for progress bar from backend
+ * @i_progress {String} Card identificator
+ */
+function ext_get_progress_data(i_progress){
+	const res = $('#y_binds_' + i_progress).val().split(",");
+	let binds = {};
+	
+	jQuery.each(res, function(i, val) {
+		if (val !== ""){
+			if ($('[name="'+val+'"]').is(":radio")){
+				if ($('[name="'+val+'"]:checked').val()) binds[':'+val] = $('[name="'+val+'"]:checked').val();
+				else binds[':'+val] = '';
+			} else {
+				if ($('[name="'+val+'"]').val()) binds[':'+val] = $('[name="'+val+'"]').val();			
+				else binds[':'+val] = '';
+			}
+		}
+	});
+	
+	$('#y_spinner').removeClass('d-none');
+	$.post('{{ @path_core }}/{{ @T_APP }}/get_progress_data', { 
+		page: $('#y_page').val(),
+		el_id: i_progress,
+		binds: binds
+	}).done (function (data) {
+		$('#'+i_progress).width(data+"%");
+		if ($('#'+i_progress).text() != '') $('#'+i_progress).html(data+' %');
+		
+		$('#y_spinner').addClass('d-none');
+	}).fail(function (xhr, status, error) {
+		set_toast('GET PROGRESS DATA', error, 'danger');
+		$('.toast').toast({delay:10000});
+		$('.toast').toast('show');
+		$('#y_spinner').addClass('d-none');
+	})
+	; 
+}
+/**
+ * Refresh data for elements assigned to triggering element for refresh
+ * @i_id {String} ID of the triggering element
+ */
+function ext_get_refresh(i_id){
+
+	$('#y_spinner').removeClass('d-none');
+	// get list of elements for refresh
+	$.post('{{ @path_core }}/{{ @T_APP }}/get_page_attr', { 
+		page: $('#y_page').val(),
+		el_id: i_id,
+		attr_id: 'refresh'  
+	}, function (attr_to_refresh) {
+		const res = attr_to_refresh.replace(/ /g,'').split(",");
+		jQuery.each(res, function(i, val) {	
+			$.post('{{ @path_core }}/{{ @T_APP }}/get_page_attr', { 
+				page: $('#y_page').val(),
+				el_id: val,
+				attr_id: 'type'
+				}).done (function (tp) {
+					if (tp === 'table'){
+						$('#y_tbp_' + val).val(1);
+						Cookies.set("{{ @PATH }}_y_tb_"+ val +".table.page", '1');
+						ext_get_table_data(val);
+					}
+					if (tp === 'chart'){
+						ext_get_chart_data(val);
+					}
+					if (tp === 'data-card'){
+						ext_get_datacard_data(val);
+					}
+				}).fail(function (xhr, status, error) {
+					set_toast('REFRESH DATA', error, 'danger');
+					$('.toast').toast({delay:10000});
+					$('.toast').toast('show');
+					$('#y_spinner').addClass('d-none');
+				});
+		});
+		$('#y_spinner').addClass('d-none');
+	}); 
+}
+/**
+ * Refresh listeners on dynamically generated html elements
+ * @i_tab {String} table identificator used, when only listeners on specific table should be refreshed
+ *
+ */
+function refresh_listeners(i_tab = ''){
+	 
+	if (i_tab !== '') {
+		$('#y_tb_'+i_tab).resizableColumns('destroy');
+		$('#y_tb_'+i_tab).resizableColumns({
+			store: window.store
+		});
+		
+		/*$('#y_tb_'+i_tab+' tr ').unbind('click');
+		$('#y_tb_'+i_tab+' tr ').on('click', function(e){
+			tab_id = $(this).closest('table').attr('id').replace('y_tb_','');
+			if ($(this).hasClass('selected')){
+				$('#'+$(this).closest('table').attr('id').replace('y_tb_','')).val($(this).find('input').val());
+			}
+			else
+			{
+				$('#'+$(this).closest('table').attr('id').replace('y_tb_','')).val('');
+			}
+			ext_get_refresh(tab_id);
+		});
+		*/
+		
+		 
+	} 
+	$('.y_tab_long').tooltip({ boundary: 'window',  delay: { "show": 500, "hide": 100 } });
+			
+	$("div.sortable").unbind("click");
+	$("div.sortable").on("click", function(e){
+		
+		tab_id = $(this).closest('table').attr('id').replace('y_tb_','');
+		Cookies.set("{{ @PATH }}_y_tb_"+ tab_id +".table.page", '1');
+		$('#y_tbp_'+tab_id).val(1);
+		setTimeout(function() {
+			ext_get_table_data(tab_id);
+		}, 50
+		);
+	});
+	
+	$(".y_tab_link").unbind("click");
+	$(".y_tab_link").on("click", function(e) {
+		var sp = $(this).find('span');
+		$('#y_form_dynamic').attr('action', sp.eq(1).text());
+		$('#y_form_dynamic').append('<input type="hidden" name="' + sp.eq(2).text() + '" id="' + sp.eq(2).text() + '" value="' + sp.eq(0).text() + '">');
+		$('#y_form_dynamic').submit();
+		
+	});
+	
+}
+/**
+ * Place toast on screen - error/info/warning..
+ * @header {String} Toast header
+ * @body {String} Toast body
+ * @type {String} danger/warning/info
+ *
+ */
+function set_toast(header, body, type){
+		 
+	$('#y_toast').append(
+	'<div aria-live="polite" class="p-2" aria-atomic="true" style="position: relative; min-height: 0px; min-width: 300px; z-index:1000;">'
+	+  '<div class="toast border-' + type + '">'
+	+	'<div class="toast-header bg-light d-flex justify-content-between" >'
+	+ '	<div class="spinner-grow text-' + type + '" role="status">'
+	+ 	' <span class="sr-only">Loading...</span>'
+	+	'</div>'
+	+ '<strong class="text-' + type + '">'
+	+  header
+	+	  '</strong><button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">'
+	+		'<span aria-hidden="true">&times;</span>'
+	+	  '</button>'
+	+	'</div>'
+	+	'<div class="toast-body" >'
+	+ body
+	+	'</div>'
+	+ '</div>'
+	+'</div>'
+	);
+	
+}
+/**
+ * Search forelement label
+ * @header {String} Toast header
+ * @body {String} Toast body
+ * @type {String} danger/warning/info
+ *
+ */
+function get_label(id){
+	if (!id || id === '') return 'Error';
+	if ($('label[for="' + id + '"]').html())
+		return $('label[for="' + id + '"]').html();
+	else id;
+}
+/**
+ * Standard check of the input form
+ * @btn {String} Pushed button ID
+ */
+function check_form(btn){
+	if (btn.hasClass('y_ignore_valid')) return true;
+		
+	let ret = true;
+	$('#y_toast').html('');
+	$( ".y_mand_input" ).each(function( index ) {
+		$(this ).removeClass('is-invalid');
+		if($( this ).val() === ''){
+			$(this ).addClass('is-invalid');
+			const label = $('label[for="' + $(this).attr('id') + '"]').html();
+			set_toast('Mandatory Field', label + ' must be filled.', 'danger');
+						
+			ret = false;
+		}
+	});
+	$( ".y_mand_text" ).each(function( index ) {
+		$(this ).removeClass('is-invalid');
+		if($( this ).val() === ''){
+			$(this ).addClass('is-invalid');
+			const label = $('label[for="' + $(this).attr('id') + '"]').html();
+			set_toast('Mandatory Field', label + ' must be filled.', 'danger');
+						
+			ret = false;
+		}
+	});
+	$( ".y_mand_select" ).each(function( index ) {
+		$(this ).removeClass('is-invalid');
+		if($( this ).val() === ''){
+			$(this ).addClass('is-invalid');
+			const label = $('label[for="' + $(this).attr('id') + '"]').html();
+			set_toast('Mandatory Field', label + ' must be filled.', 'danger');
+						
+			ret = false;
+		}
+	});
+	
+	{{ @T_JS_CHECK_AFTER }}
+	
+	$('.toast').toast({delay:10000});
+	$('.toast').toast('show');
+	
+	return ret;
+}
+/**
+ * Actions executed before page redirect based on the button click
+ *  
+ */
+function before_goto () {
+	const btn = $('#y_btn_click').val();
+	{{ @T_J_BEFORE_GOTO }}
+}
+$(document).ready(function() {
+	
+	$(".y_btn_refresh").on("click", function(e) {
+		ext_get_refresh($(this).attr('id'));
+	});
+	$(".y_input_refresh").on("change", function(e) {
+		ext_get_refresh($(this).attr('id'));
+	});	
+	
+	$(".y_btn_goto").on("click", function(e) {
+		
+		$('#y_btn_click').val($(this).attr('id'));
+		before_goto();
+		if (check_form($(this))) document.getElementById("y_form").submit();
+				
+	});
+	$(".y_tab").each (function() {
+		ext_get_table_data($(this).attr('id').replace('y_tb_', ''));
+	});
+	$(".y_chart").each (function() {
+		ext_get_chart_data($(this).attr('id'));		
+	});
+	$(".y_progress").each (function() {
+		ext_get_progress_data($(this).attr('id'));
+	});
+	$(".y_datacard").each (function() {
+		ext_get_datacard_data($(this).attr('id'));
+	});
+	
+	$(".y_tb_rows").each (function() {
+		const id = $(this).attr('id').replace('y_tb_rows_', '');
+		const val = Cookies.get("{{ @PATH }}_y_tb_"+ id +".table.rows");
+		if (val) $(this).val(val);
+	
+	});
+	$(".y_tbp").each (function() {
+		const id = $(this).attr('id').replace('y_tbp_', '');
+		console.log(id);
+		const val = Cookies.get("{{ @PATH }}_y_tb_"+ id +".table.page");
+		if (val) $(this).val(val);
+		
+		console.log('page val:'+val);
+		console.log('page:'+$(this).val());
+		
+	});
+	
+	//table page right click
+	$(".y_tbr").on("click", function(e) {
+		
+		const id = $(this).attr('id').replace('y_tbr_', '');
+		const p = String(Number($('#y_tbp_'+ id).val()) + 1);
+		$('#y_tbp_' + id).val(p);
+		Cookies.set("{{ @PATH }}_y_tb_"+ id +".table.page", p);
+		ext_get_table_data(id);
+				
+	});
+	//table page left click
+	$(".y_tbl").on("click", function(e) {
+	
+		const id = $(this).attr('id').replace('y_tbl_', '');
+		let p = Number($('#y_tbp_'+ id).val()) - 1;
+		if (p < 1) p = 1;
+		
+		$('#y_tbp_'+ id).val(p);
+		Cookies.set("{{ @PATH }}_y_tb_"+ id +".table.page", p);
+		ext_get_table_data(id);
+	});
+	 
+	//table sort click
+	$("div.sortable").on("click", function(e){
+		
+		const tab_id = $(this).closest('table').attr('id').replace('y_tb_','');
+		//$('#y_tbp_' + tab_id).val(1);
+	 
+		Cookies.set("{{ @PATH }}_y_tb_"+ tab_id +".table.page", '1');
+		setTimeout(function() {
+			ext_get_table_data(tab_id);
+		}, 50
+		);	
+	});
+	//table page number change
+	$(".y_tbp").on("change", function(e) {
+		console.log('change');
+		const id = $(this).attr('id').replace('y_tbp_', '');
+		const p = Number($(this).val());
+		Cookies.set("{{ @PATH }}_y_tb_"+ id +".table.page", $(this).val());
+		ext_get_table_data($(this).attr('id').replace('y_tbp_', ''));
+	});
+	//table page refresh click
+	$(".y_tbs").on("click", function(e) {
+		ext_get_table_data($(this).attr('id').replace('y_tbs_', ''));
+	});
+	//table number of rows change
+	$(".y_tb_rows").on("change", function(e) {
+		const id = $(this).attr('id').replace('y_tb_rows_', '');
+		Cookies.set("{{ @PATH }}_y_tb_"+ id +".table.rows", $(this).val());
+		ext_get_table_data($(this).attr('id').replace('y_tb_rows_', ''));
+	});
+	
+	refresh_listeners();
+	{{ @T_J_DOCUMENT_READY }}
+		
+	<repeat group="{{ @T_TOASTS }}" value="{{ @T }}">
+	set_toast('{{ @T[0] }}', '{{ @T[1] }}', '{{ @T[2] }}');
+	</repeat>
+	
+	{{ @T_JS_CHECK_BEFORE }}
+	
+	$('.toast').toast({delay:10000});
+	$('.toast').toast('show');
+ 
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	});
+	
+ }); 
+ {{ @T_SETTINGS->js }}
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<check if="{{ @T_CODE=='common' }}">
+	<check if="{{ @T_GUI->margin != '' }}">
+		m-{{ @T_GUI->margin }}  
+	 </check>
+	 <check if="{{ @T_GUI->padding != '' }}">
+		p-{{ @T_GUI->padding }}  
+	 </check>
+	 <check if="{{ @T_GUI->bg_color != '' }}">
+		bg-{{ @T_GUI->bg_color }}  
+	 </check>
+	<check if="{{ @T_GUI->small == 'Y' }}">
+		small 
+	 </check>
+	 <check if="{{ @T_GUI->col != '' }}">
+		col-{{ @T_GUI->col }} 
+	 </check>
+	 <check if="{{ @T_GUI->border != '' }}">
+		border border-{{ @T_GUI->border }} {{ @T_GUI->border_radius }} 
+	 </check>
+	 <check if="{{ @T_GUI->flex == 'Y' }}">
+		d-flex  
+	 </check>
+	 <check if="{{ @T_GUI->float != '' }}">
+		{{ @T_GUI->float }}  
+	 </check>
+	 <check if="{{ @T_GUI->flex_align_items != '' }}">
+		align-items-{{ @T_GUI->flex_align_items }} 
+	 </check>
+	 <check if="{{ @T_GUI->flex_align_self != '' }}">
+		align-self-{{ @T_GUI->flex_align_self }} 
+	 </check>
+	 <check if="{{ @T_GUI->flex_justify_content != '' }}">
+		justify-content-{{ @T_GUI->flex_justify_content }} 
+	 </check>
+	 <check if="{{ @T_GUI->flex_grow != '' }}">
+		flex-{{ @T_GUI->flex_grow }}-1
+	 </check>
+	 <check if="{{ @T_GUI->flex_direction != '' }}">
+		flex-{{ @T_GUI->flex_direction }}
+	 </check>
+	 <check if="{{ @T_GUI->flex_width != '' }}">
+		w-{{ @T_GUI->flex_width }}
+	 </check>
+	 <check if="{{ @T_GUI->flex_height != '' }}">
+		h-{{ @T_GUI->flex_height }}
+	 </check>
+	<check if="{{ @T_GUI->shadow != '' }}">
+		{{ @T_GUI->shadow }}
+	 </check>		 
+</check>
+ 
+ 
+ 
+
+ 

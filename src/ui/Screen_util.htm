@@ -1,0 +1,73 @@
+ <check if="{{ @T_CODE=='DOWN_LIST' }}">
+<div class="form-row p-2 ">
+{{ @T_PAGE_CARDS }}
+</div>
+</check>
+ <check if="{{ @T_CODE=='LI' }}">
+ <div class="list-group">
+<repeat group="{{ @T_FILES }}" value="{{ @f }}">
+<a href="#" class="list-group-item list-group-item-action" onclick="ext_download('{{ @f }}');return false;">{{ @f }}</a>
+	 	 
+</repeat>
+</div>
+</check>
+ <check if="{{ @T_CODE=='PAGE_CARD' }}">
+ <div class="flip-card" style="width:10rem; height:8rem;" id="y_card_{{ @T_FILENAME }}"  >
+ <div class="flip-card-inner">
+	<div class="flip-card-front card bg-primary d-flex flex-column justify-content-center" style="cursor: pointer;" onclick="ext_download('{{ @T_FILENAME }}');return false;">
+		<span class="p-2 text-light">
+		<check if="{{@T_PAGE->title == ''}}"><true>{{ @T_FILENAME }}</true><false>{{@T_PAGE->title}}</false></check>
+		</span>
+		<span class="display-4 text-white icon float-right
+  <check if="{{@T_PAGE->category == 'report'}}"> fa-table</check>
+  <check if="{{@T_PAGE->category == 'detail'}}"> fa-columns</check>
+  <check if="{{@T_PAGE->category == 'form'}}"> fa-edit</check>
+  <check if="{{@T_PAGE->category == 'dashboard'}}">  fa-line-chart</check>
+  "></span> 
+	</div>
+	<div class="flip-card-back card bg-light">
+		<div class="card-header p-1 text-primary ">{{ @T_FILENAME }}<span class="float-right icon fa-times" style="cursor: pointer;" onclick="ext_delete('{{ @T_FILENAME }}');return false;"></span></div>
+		<div class="card-body text-muted p-1  " style="cursor: pointer;"  onclick="ext_download('{{ @T_FILENAME }}');return false;" >{{@T_PAGE->desc}}</div>
+		<div class="card-footer text-muted small p-0 ">{{@T_LAST}}</div>
+	</div>
+</div>
+</div>
+	 
+ 
+</check>
+ <check if="{{ @T_CODE=='LOG_LIST' }}">
+<p class="m-0"><a href="#" class="btn btn-light w-100"   onclick="ext_get_logs('{{ @T_FILENAME }}');return false;">{{@T_FILENAME}}</a></p>
+</check>
+ <check if="{{ @T_CODE=='SQL_MESSAGE' }}">
+<span class="code w-100">{{ @T_SQL_MESSAGE | raw }}</span>
+</check>
+ <check if="{{ @T_CODE=='SQL_RESULT' }}">
+ <div class="w-100" >
+	 
+	<table class="table table-responsive table-bordered">
+		<thead class="table-secondary"><tr class="table-primary y_mapping_header">
+		<repeat group="{{ $T_COLS }}" value="{{ @COL }}">
+			<th class="p-1"> {{ @COL }} </th>
+		</repeat>
+		
+		</tr><tr class="y_mapping_label">
+		<repeat group="{{ $T_LABELS }}" value="{{ @LABEL }}">
+			<th class="p-1" contenteditable="true"> {{ @LABEL }} </th>
+		</repeat>
+		
+		</tr></thead><tr>
+		
+		<repeat group="{{ $T_RES }}" value="{{ @RES }}">
+			<tr>
+			<repeat group="{{ $T_COLS }}" value="{{ @COL }}">
+					<td class="p-1"> {{ @RES[@COL] }}</td>
+			</repeat>
+			</tr>
+		</repeat>
+	</table>
+	 
+</div>
+</check>
+ <check if="{{ @T_CODE=='ERROR_TOAST' }}">
+<script>set_toast({{ @T_ERROR_HEAD }}, {{ @T_ERROR_MESSAGE }} , 'danger');</script>
+</check>

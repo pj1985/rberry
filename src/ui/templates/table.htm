@@ -1,0 +1,348 @@
+<check if="{{ @T_CODE=='table start' }}">
+	<div   class="form-group 
+	{{ @T_COMMON }}
+	  <check if="{{ @T_GUI->subtype != '' }}">
+		{{ @T_GUI->subtype }} 
+	 </check>
+	  <check if="{{ @T_GUI->color != '' }}">
+		text-{{ @T_GUI->color }} 
+	 </check>
+	 {{ @T_GUI->class }}
+	">
+	<input type="hidden" id="y_binds_{{ @T_ID }}" value="{{ @T_GUI->binds }}"></input>
+	<input type="hidden" id="y_sort_{{ @T_ID }}" value=""></input>
+	<input type="hidden" id="{{ @T_ID }}" name="{{ @T_ID }}" value=""></input>
+	<label for="<check if="{{ @T_MODE == 'prod' }}">y_tb_</check>{{ @T_ID }}" class="{{ @T_GUI->label_class }}">{{ @T_GUI->label }}</label>
+
+	<table id="<check if="{{ @T_MODE == 'prod' }}">y_tb_</check>{{ @T_ID }}" 
+	data-show-fullscreen="true"
+	
+	<check if="{{ @T_GUI->input != '' || @T_GUI->select_into != ''}}"> 
+	data-single-select="true"
+	</check>
+	<check if="{{ @T_GUI->row_select == 'Y' }}"> 
+	data-click-to-select="true"
+	</check>
+	data-toggle="table"
+	data-buttons-class="primary"
+	data-icon-size="sm"
+	data-show-export="true"
+	data-show-columns="true"
+	
+	data-resizable="true"
+	
+	data-custom-sort="sort_table"
+	data-minimum-count-columns="2"
+	data-cookie="true"
+    data-cookie-id-table="{{ @PATH }}_y_tb_{{ @T_ID }}"
+	
+	data-id-field="{{ @T_GUI->input }}"
+    <check if="{{ @T_GUI->table_class != '' }}">  
+	data-classes="{{ @T_GUI->table_class }}"
+	</check>
+	<check if="{{ @T_GUI->quick_search != '' }}">  
+	data-search="true"
+	data-visible-search="true"
+	</check>
+	<check if="{{ @T_GUI->thead_class != '' }}">  
+	data-thead-classes="{{ @T_GUI->thead_class }}"
+	</check>
+	class="table table-bordered table-sm <check if="{{ @T_GUI->autoload == 'Y' }}"> y_tab </check><check if="{{ @T_GUI->responsive == 'Y' }}"> table-responsive </check> <check if="{{ @T_GUI->row_select == 'Y' }}"> table-hover </check>"
+	>
+	<thead class="table-primary small"><tr>
+	<check if="{{ @T_GUI->input != '' || @T_GUI->select_into != ''}}">
+		<th data-field="state" data-checkbox="true">
+		</th>
+	</check>
+	<repeat group="{{ @T_GUI->columns }}" value="{{ @COL }}">
+	 	<th data-field="{{ @COL[0] }}" 
+			<check if="{{ @COL[7] == 'HIGHLIGHT' }}"> data-visible="false"</check> 
+			<check if="{{ @T_GUI->sortable == 'Y' }}"> data-sortable="true" </check>
+			<check if="{{ @COL[6] }} != '' "> class="{{ @COL[6] }}" </check>
+			
+			data-formatter="df_y_tb_{{ @T_ID }}_{{ @COL[0] }}"
+			>{{ @COL[1] }}
+		</th>
+		<script>
+		function df_y_tb_{{ @T_ID }}_{{ @COL[0] }} (value, row) {
+			var ret = value;
+			<check if="{{ @COL[7] == 'PROGRESS' }}">ret = column_Progress(value, row);</check>
+			<check if="{{ @COL[7] == 'YN' }}">ret = column_Yn(value, row);</check>
+			<check if="{{ @COL[7] == 'FA' }}">ret = column_Fa(value, row);</check>
+			<check if="{{ @COL[7] == 'LONG' }}">ret = column_Long(value, row);</check>
+			<check if="{{ @COL[2] != '' }}">
+			ret = '<a href="#" class="y_tab_link"> \
+				<span class="d-none">'+value+'</span> \
+				<span class="d-none">{{ @COL[2] }}</span> \
+				<span class="d-none">{{ @COL[3] }}</span> \
+				<check if="{{ @COL[4]!= '' || @COL[5]!= ''}}">
+				<true>
+				<div class="btn btn btn-primary btn-sm" style="padding:0.10rem 0.15rem;"><check if="{{ @COL[5]!= ''}}"><span class="icon m-1 {{ @COL[5] }}"></span></check>{{ @COL[4] }}</div> \
+				</true>
+				<false>
+				' + ret + '
+				</false>
+				</check>
+				</a> ';	
+			</check>
+			return ret;
+		}
+		</script>
+	</repeat>
+ 
+	</tr></thead>
+	<check if="{{ @T_MODE != 'prod' }}">
+	<tr>	 
+	<repeat group="{{ @T_GUI->columns }}" value="{{ @COL }}">
+	 	<td></td>
+	</repeat>
+	<check if="{{ @T_GUI->select_into != '' }}">
+		<td></td>
+	</check>
+	</tr>
+	</check>
+</check>
+<check if="{{ @T_CODE=='table end' }}">
+	</table>
+	<check if="@T_GUI->page || @T_GUI->select_into != ''  "> 
+	<div class="d-flex flex-row-reverse align-items-center">
+		<check if="{{ @T_GUI->select_into != '' }}">
+		<span class="btn btn-link p-2 icon-nav fa-check" id="y_tb_select_{{ @T_ID }}"></span> 
+		<script>
+		$("#y_tb_select_{{ @T_ID }}").on("click", function(e) {
+			j = $('#y_tb_{{ @T_ID }}').bootstrapTable('getSelections');
+			<repeat group="{{ @T_GUI->columns }}" value="{{ @COL }}" key="{{ @K }}">
+				<check if="{{ @COL[3]!= '' }}">
+					$('#{{ @COL[3] }}').val(j[0].{{ @COL[0] }});
+				</check>
+			</repeat>
+			
+			<check if="{{ @T_GUI->select_into_hide == 'Y' }}">
+				$('.modal').modal('hide');			
+			</check if>
+		});
+		</script>
+		</check>
+		
+		<script>
+		$("#y_tb_{{ @T_ID }}").on("column-switch.bs.table", function(e) {
+			refresh_listeners('{{ @T_ID }}');
+		});
+		
+		<check if="{{ @T_GUI->refresh != '' }}">
+		$("#y_tb_{{ @T_ID }}").on("check.bs.table", function(e,  row, $element) {
+			$('#{{ @T_ID }}').val($element.val());
+			Cookies.set("{{ @PATH }}_y_tb_{{ @T_ID }}.table.selected", $element.val());
+			ext_get_refresh('{{ @T_ID }}');
+			
+		});
+		$("#y_tb_{{ @T_ID }}").on("uncheck.bs.table", function(e) {
+			$('#{{ @T_ID }}').val('');
+			Cookies.set("{{ @PATH }}_y_tb_{{ @T_ID }}.table.selected", '');
+			ext_get_refresh('{{ @T_ID }}');
+			
+		});
+		</check>
+		</script>
+		
+		<check if="@T_GUI->page "> 
+		<span class="btn btn-link p-2 icon-nav y_tbr fa-chevron-circle-right" id="y_tbr_{{ @T_ID }}"></span>
+		<input type="text" class="form-control form-control-sm y_tbp" id="y_tbp_{{ @T_ID }}" style="width:30px;" value="{{ @T_TAB_PAGE }}" ></input>
+		<span class="btn btn-link p-2 icon-nav y_tbl fa-chevron-circle-left" id="y_tbl_{{ @T_ID }}"></span>
+		<span  class="btn btn-link p-2 icon-nav y_tbs fa-refresh" id="y_tbs_{{ @T_ID }}"></span>
+	 	<input type="text" class="form-control form-control-sm y_tb_rows" id="y_tb_rows_{{ @T_ID }}" style="width:40px;" value="{{ @T_GUI->page }}" >Rows:&nbsp;</input>
+		</check>
+		
+	</div>
+	</check>
+	</div>
+</check>
+
+ <check if="{{ @T_CODE=='T_TAB_DATA' }}">
+	<thead class="table-primary"><tr>
+	<check if="{{ @T_GUI->input != '' }}">
+		<th style="width:1%" data-resizable-column-id="#">
+		</th>
+	</check>
+	<repeat group="{{ $T_COLS }}" value="{{ @COL }}">
+	 	<check if="{{ @COL[4] != '' || @COL[5]!= ''}}">
+		<true>
+		<th style="width: 1%" data-resizable-column-id="#">
+		</true>
+		<false>
+		<th data-resizable-column-id="y_{{ @COL[1] }}" data-field="{{ @COL[1] }}" <check if="{{ @COL[7] == 'HIGHLIGHT' }}">
+				class="d-none"
+				</check> >
+		<div class="d-flex justify-content-between"><span >{{ @COL[1] }}</span>
+		<check if="@T_GUI->sortable == 'Y' "> 
+		<div class="d-flex flex-row-reverse flex-nowrap"> 
+		<a href="#" class=" icon y_sort fa-long-arrow-down" id="y_asc_{{ @COL[0] }}" ></a>
+		<a href="#" class=" icon y_sort fa-long-arrow-up" id="y_desc_{{ @COL[0] }}" ></a>
+		</div></check if></div>
+		</false>
+		</check>
+		</th>
+	</repeat>
+	<check if="{{ @T_GUI->select_into != '' }}">
+		<th></th>
+	</check>
+	</tr></thead><tr>
+	
+	<repeat group="{{ $T_RES }}" value="{{ @RES }}" key="{{ @RES_KEY }}">
+	 	<tr <check if="{{ @T_GUI->input != '' && @T_GUI->row_select == 'Y'}}">class="y_row_select" </check>>
+		<check if="{{ @T_GUI->input != '' }}">
+		<td>
+		<div class="form-check">
+		  <input class="form-check-input position-static <check if="{{ @T_GUI->refresh != '' }}"> y_table_refresh </check> " type="radio" name="{{ @T_ID }}" id="{{ @T_ID }}" value="{{ @RES[@T_GUI->input] }}" aria-label="..."
+		  <check if="{{ @RES[@T_GUI->input] == @T_FORM_PARAMS->@T_ID}}">
+		   checked
+		  </check>
+		  >
+		</div>
+		</td>
+		</check>
+		<repeat group="{{ $T_COLS }}" value="{{ @COL }}" key="{{ @KEY }}">
+			<td 
+			<check if="{{ @COL[6]!= '' }} && {{ @COL[7] == '' }}">
+			class="{{ @COL[6] }}"
+			</check>
+			<check if="{{ @COL[7] == 'HIGHLIGHT' }}">
+				class="d-none"
+			</check>
+			<check if="{{ @COL[7] != '' }} && {{ @COL[7] != 'LONG' }}">
+			align="center" valign="middle"
+			</check>
+			<check if="{{ @COL[2] != '' }}">
+			<true>
+				<check if="{{ @COL[4]!= '' || @COL[5]!= ''}}">align="center" valign="middle"</check>>
+				<a href="#" class="y_tab_link"><span <check if="{{ @COL[4]!= '' || @COL[5]!= ''}}">	class="d-none"	</check>
+				><check if="{{ @COL[7] == 'YN' }}">
+				<span class="icon m-1 
+				<check if="{{ @RES[@COL[0]]  == 'Y'}}"> fa-check-circle  </check>
+				<check if="{{ @RES[@COL[0]]  == 'N'}}"> fa-times-circle  </check>
+				{{ @COL[6] }}">
+				</span>
+				</check><check if="{{ @COL[7] == 'FA' }}">
+				<span class="icon m-1 {{ @RES[@COL[0]] }} {{ @COL[6] }}"></span>
+				</check><check if="{{ @COL[7] == 'PROGRESS' }}">
+				<div class="progress">
+				  <div class="progress-bar bg-primary {{ @COL[6] }}" role="progressbar" style="width: {{ @RES[@COL[0]] }}%" aria-valuenow="{{ @RES[@COL[0]] }}" aria-valuemin="0" aria-valuemax="100"></div>
+				</div>
+				</check><check if="{{ @COL[7] == 'HIGHLIGHT' }}">
+				<span class="d-none y_tr_highlight">{{ @RES[@COL[0]] }}</span>
+				</check><check if="{{ @COL[7] == '' }}">{{ @RES[@COL[0]] }}</check></span><span class="d-none">{{ @COL[2] }}</span><span class="d-none">{{ @COL[3] }}</span>
+				<check if="{{ @COL[4]!= '' || @COL[5]!= ''}}">
+				<div class="btn btn btn-primary btn-sm" style="padding:0.10rem 0.15rem;"><check if="{{ @COL[5]!= ''}}"><span class="icon m-1 {{ @COL[5] }}"></span></check>{{ @COL[4] }}</div>
+				</check>
+				</a></td>
+			</true>
+			<false>
+				>
+				<check if="{{ @COL[7] == 'YN' }}">
+				<span class="icon m-1  
+				<check if="{{ @RES[@COL[0]]  == 'Y'}}"> h4 text-success fa-check-circle  </check>
+				<check if="{{ @RES[@COL[0]]  == 'N'}}"> h4 text-danger fa-times-circle  </check>
+				{{ @COL[6] }}">
+				</span>
+				</check><check if="{{ @COL[7] == 'FA' }}">
+				<span class="icon m-1 {{ @RES[@COL[0]] }} {{ @COL[6] }}"></span>
+				</check><check if="{{ @COL[7] == 'LONG' }}">
+				<span class="{{ @COL[6] }} y_tab_long" style="overflow:hidden;text-overflow:ellipsis;display:inline-block;white-space:nowrap;max-width: 10rem;"
+				data-toggle="tooltip"  data-placement="top" title="{{ @RES[@COL[0]] }}"
+				>{{ @RES[@COL[0]] }}</span>
+				</check><check if="{{ @COL[7] == 'PROGRESS' }}">
+				<div class="progress">
+				  <div class="progress-bar bg-primary  {{ @COL[6] }}" role="progressbar" style="width: {{ @RES[@COL[0]] }}%" aria-valuenow="{{ @RES[@COL[0]] }}" aria-valuemin="0" aria-valuemax="100"></div>
+				</div>
+				</check><check if="{{ @COL[7] == 'BADGE' }}">
+				<span class="badge badge-primary {{ @COL[6] }}">{{ @RES[@COL[0]] }}</span>
+				</check><check if="{{ @COL[7] == 'HIGHLIGHT' }}">
+				<div class="d-none y_tr_highlight">{{ @RES[@COL[0]] }}</div>
+				</check><check if="{{ @COL[7] == 'CHART_LINE' }}">
+				<canvas id="y_chl_{{ @T_ID }}_{{ @RES_KEY }}_{{ @KEY }}" style="height:4rem;" class="{{ @COL[6] }}"></canvas>
+				<script>
+				var ctx = document.getElementById('y_chl_{{ @T_ID }}_{{ @RES_KEY }}_{{ @KEY }}');
+				var style = getComputedStyle(document.body);
+				var myChart = new Chart(ctx, {
+					type: 'line',
+					data: {
+						labels: [{{ @RES[@COL[0]] }}],
+						datasets: [{
+							data: [{{ @RES[@COL[0]] }}],
+							borderColor: style.getPropertyValue('--primary'),
+							borderWidth: 2,
+							fill:false
+						}]
+					},
+					options: option_tab_chart_line
+				});
+				</script></check><check if="{{ @COL[7] == 'CHART_PIE' }}">
+				<canvas id="y_chl_{{ @T_ID }}_{{ @RES_KEY }}_{{ @KEY }}" align="left" style="height:3rem;" class="{{ @COL[6] }}"></canvas>
+				<script>
+				var ctx = document.getElementById('y_chl_{{ @T_ID }}_{{ @RES_KEY }}_{{ @KEY }}');
+				var style = getComputedStyle(document.body);
+				var myChart = new Chart(ctx, {
+					type: 'pie',
+					data: {
+						labels: ['', '', '', 'Success', 'Warning', 'Danger', ''],
+						datasets: [{
+							data: [{{ @RES[@COL[0]] }}],
+							backgroundColor: [
+								style.getPropertyValue('--primary'),
+								style.getPropertyValue('--secondary'),
+								style.getPropertyValue('--info'),
+								style.getPropertyValue('--success'),
+								style.getPropertyValue('--warning'),
+								style.getPropertyValue('--danger'),
+								style.getPropertyValue('--light')
+							],	
+							hoverBackgroundColor: [
+								style.getPropertyValue('--primary'),
+								style.getPropertyValue('--secondary'),
+								style.getPropertyValue('--info'),
+								style.getPropertyValue('--success'),
+								style.getPropertyValue('--warning'),
+								style.getPropertyValue('--danger'),
+								style.getPropertyValue('--light')
+							],	
+							borderColor: style.getPropertyValue('--light'),
+							borderWidth: 1,
+							fill:true
+						}] 
+					},
+					options: option_tab_pie
+				});
+				</script></check><check if="{{ @COL[7] == '' }}">{{ @RES[@COL[0]] }}</check></td>
+			</false>
+			</check>
+		</repeat>
+		<check if="{{ @T_GUI->select_into != '' }}">
+			<td><a href="#" class=" icon y_select_into {{ @T_GUI->select_into }} y_row_{{ @T_ID }}"></a></td>
+		</check>
+		</tr>
+	</repeat>
+	<check if="{{ @T_GUI->select_into != '' }}">
+		<script>
+		$(".y_row_{{ @T_ID }}").on("click", function(e) {
+			var row = $(this).parents('tr');
+			var td = row.find('td');
+			<repeat group="{{ $T_COLS }}" value="{{ @COL }}" key="{{ @K }}">
+				<check if="{{ @COL[3]!= '' }}">
+				$('#{{ @COL[3] }}').val(td.eq({{ @K }}).text().trim());
+				</check>
+			</repeat>
+			<check if="{{ @T_GUI->select_into_hide == 'Y' }}">
+				$('.modal').modal('hide');			
+			</check if>
+		});
+		</script>
+	</check>
+	<check if="{{ @T_GUI->refresh != '' }}"> 
+	<script>
+	$(".y_table_refresh").on("change", function(e) {
+		ext_get_refresh($(this).attr('id'));				
+	});	
+	</script>
+	</check>
+	
+ </check>

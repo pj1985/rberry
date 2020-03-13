@@ -1,0 +1,110 @@
+ <check if="{{ @T_CODE=='data-card' }}">
+	<div class="{{ @T_COMMON }} {{ @T_GUI->class }}">
+	<legend class="{{@T_GUI->label_class}}">{{@T_GUI->label}}</legend>
+	<check if="{{ @T_GUI->badge_text != '' }}">
+		<span class="badge badge-{{ @T_GUI->badge_color }} float-right">{{ @T_GUI->badge_text }}</span>
+	 </check>
+	<div id="{{ @T_ID }}" class=" y_datacard">	
+	<repeat group="{{ @T_GUI->columns }}" value="{{ @COL }}">
+		<dl class=" row  {{@T_GUI->line_class}}
+		<check if="{{ @T_GUI->line_justify != '' }}">justify-content-{{@T_GUI->line_justify}}</check>
+		">
+		<dt class="col-sm-3"><check if="{{ @COL[2] != '' }}"><span class="icon {{ @COL[2] }}"></span></check>{{ @COL[1] }}</dt>
+		<dd class="col-sm-9 ">...</dd>		 
+		</dl>	 	 
+	</repeat>	
+	</div>	
+	<input type="hidden" id="y_binds_{{ @T_ID }}" value="{{ @T_GUI->binds }}"></input>
+    </div>
+</check>
+ <check if="{{ @T_CODE=='data-card-data' }}">
+	<repeat group="{{ $T_COLS }}" value="{{ @COL }}" key="{{ @KEY }}">
+		<dl class=" row  
+		<check if="{{ @T_GUI->line_justify != '' }}">justify-content-{{@T_GUI->line_justify}}</check>
+		">
+		<dt class="col-sm-3 {{@T_GUI->line_class}}"><check if="{{ @COL[2] != '' }}"><span class="icon {{ @COL[2] }}"></span></check>{{ @COL[1] }}</dt>
+		<dd class="col-sm-9 d-flex">
+			<check if="{{ @COL[4] == 'YN' }}">
+			<span class=" w-100 icon m-1  
+			<check if="{{ @T_RES[0][@COL[0]]  == 'Y'}}"> h4 text-success fa-check-circle  </check>
+			<check if="{{ @T_RES[0][@COL[0]]  == 'N'}}"> h4 text-danger fa-times-circle  </check>
+			{{ @COL[3] }}">
+			</span>
+			</check>
+			<check if="{{ @COL[4] == 'FA' }}">
+			<span class="w-100 icon m-1 {{ @T_RES[0][@COL[0]] }}  {{ @COL[3] }}"></span>
+			</check>
+			<check if="{{ @COL[4] == 'PROGRESS' }}">
+			<div class="progress h-100 border w-100"> 
+			  <div class="progress-bar bg-primary {{ @COL[3] }}" role="progressbar" style="width:{{ @T_RES[0][@COL[0]] }}%" aria-valuenow="{{ @T_RES[0][@COL[0]] }}" aria-valuemin="0" aria-valuemax="100">{{ @T_RES[0][@COL[0]] }}%</div>
+			</div>
+			</check>
+			<check if="{{ @COL[4] == 'BADGE' }}">
+			<span class="w-100 badge badge-primary {{ @COL[3] }}">{{ @T_RES[0][@COL[0]] }} </span>
+			</check>
+			<check if="{{ @COL[4] == 'CHART_LINE' }}">
+			<canvas id="y_chl_{{ @T_ID }}_{{ @KEY }}" style="height:4rem;" class="{{ @COL[3] }}"></canvas>
+			<script>
+			var ctx = document.getElementById('y_chl_{{ @T_ID }}_{{ @KEY }}');
+			var style = getComputedStyle(document.body);
+			var myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+					labels: [{{ @T_RES[0][@COL[0]] }}],
+					datasets: [{
+						data: [{{ @T_RES[0][@COL[0]] }}],
+						backgroundColor: style.getPropertyValue('--secondary'),
+						borderColor: style.getPropertyValue('--primary'),
+						borderWidth: 2,
+						fill:true
+					}]
+				},
+				options: option_data_line
+			});
+			</script>	
+			</check>
+			<check if="{{ @COL[4] == 'CHART_PIE' }}">
+			<canvas id="y_chl_{{ @T_ID }}_{{ @KEY }}" align="left" style="height:5rem;" class="{{ @COL[3] }}"></canvas>
+			<script>
+			var ctx = document.getElementById('y_chl_{{ @T_ID }}_{{ @KEY }}');
+			var style = getComputedStyle(document.body);
+			var myChart = new Chart(ctx, {
+				type: 'pie',
+				data: {
+					labels: ['', '', '', 'Success', 'Warning', 'Danger', ''],
+					datasets: [{
+						data: [{{ @T_RES[0][@COL[0]] }}],
+						backgroundColor: [
+							style.getPropertyValue('--primary'),
+							style.getPropertyValue('--secondary'),
+							style.getPropertyValue('--info'),
+							style.getPropertyValue('--success'),
+							style.getPropertyValue('--warning'),
+							style.getPropertyValue('--danger'),
+							style.getPropertyValue('--light')
+						],	
+						hoverBackgroundColor: [
+							style.getPropertyValue('--primary'),
+							style.getPropertyValue('--secondary'),
+							style.getPropertyValue('--info'),
+							style.getPropertyValue('--success'),
+							style.getPropertyValue('--warning'),
+							style.getPropertyValue('--danger'),
+							style.getPropertyValue('--light')
+						],	
+						borderColor: style.getPropertyValue('--light'),
+						borderWidth: 1,
+						fill:true
+					}] 
+				},
+				options: option_data_pie
+			});
+			</script>	
+			</check>
+			<check if="{{ @COL[4] == '' }}">
+			<span class="w-100 {{ @COL[3] }}">{{ @T_RES[0][@COL[0]] }}</span>
+			</check>
+		</dd>		 
+		</dl>
+	</repeat>	 
+</check>

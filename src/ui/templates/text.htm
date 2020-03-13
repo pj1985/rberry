@@ -1,0 +1,14 @@
+ <check if="{{ @T_CODE=='text' }}">
+	<div class="form-group 
+	{{ @T_COMMON }}
+	  <check if="{{ @T_GUI->subtype != '' }}">
+		{{ @T_GUI->subtype }} 
+	 </check>
+	  <check if="{{ @T_GUI->color != '' }}">
+		text-{{ @T_GUI->color }} 
+	 </check>
+	 {{ @T_GUI->class }}
+	">
+    <span id="{{ @T_ID }}">{{ @T_GUI->text }}</span>
+	</div>
+</check>

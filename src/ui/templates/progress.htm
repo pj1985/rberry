@@ -1,0 +1,20 @@
+ <check if="{{ @T_CODE=='progress' }}">
+	<div class="progress {{ @T_GUI->class }}" style="min-height:1rem;" data-toggle="tooltip"  data-placement="top" title="{{ @T_GUI->tooltip }}">
+	<div class="progress-bar bg-{{ @T_GUI->color }} y_progress <check if="{{ @T_GUI->striped =='Y' }}"> progress-bar-striped </check>" id="{{ @T_ID }}" role="progressbar" style="width: {{ @T_VALUE }}%" aria-valuenow="{{ @T_VALUE }}" aria-valuemin="{{ @T_GUI->min_val }}" aria-valuemax="{{ @T_GUI->max_val }}">
+	<check if="{{ @T_GUI->show_value =='Y' }}"><legend>{{ @T_VALUE }} %</legend></check>
+	</div>
+	<check if="{{ @T_GUI->auto_refresh!='' }} && @T_MODE == 'prod'">
+	<script>
+		var int_{{ @T_ID }} = setInterval(function(){
+		console.log('refresh:{{ @T_ID }}');
+		ext_get_progress_data('{{ @T_ID }}');
+		}, {{ @T_GUI->auto_refresh }}000);
+	</script>
+	</check>
+	<check if="{{ @T_GUI->show_value =='Y' }}">
+	{{ @T_VALUE }}
+	</check>
+	</div>
+	<input type="hidden" id="y_binds_{{ @T_ID }}" value="{{ @T_GUI->binds }}"></input>
+	
+</check>

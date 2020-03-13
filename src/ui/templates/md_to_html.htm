@@ -1,0 +1,11 @@
+ <check if="{{ @T_CODE=='md_to_html' }}">
+	<div class="form-group {{ @T_COMMON }}
+	  <check if="{{ @T_GUI->subtype != '' }}">
+		{{ @T_GUI->subtype }} 
+	 </check>
+	  <check if="{{ @T_GUI->color != '' }}">
+		text-{{ @T_GUI->color }} 
+	 </check> {{ @T_GUI->class }}">
+    <span id="{{ @T_ID }}">{{ @T_MD_TEXT | raw}}</span>
+	</div>
+</check>

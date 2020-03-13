@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>{{ @T_TITLE }}</title>
+
+ <!-- Bootstrap  -->
+<link href="{{ @main_boot_css }}" rel="stylesheet" type="text/css" />
+ 
+<script src="{{ @path_jquery }}"></script>
+<script src="{{ @path_popper }}"></script>
+<script src="{{ @path_bootstrap_min }}"></script>
+
+ <!-- Font Awesome -->
+<link rel="stylesheet" href="{{ @path_font_awesome }}">
+</head>
+<style>
+</style>
+<body>
+<div class="alert alert-dismissible alert-danger">
+            <h4 class="alert-heading display-4">Gosh!</h4>
+			<p>So, this is what is going on.. </p>
+			<p><span class="h5">Code: </span>{{ @T_ERROR.code }}</p>
+			<p><span class="h5">Status: </span>{{ @T_ERROR.status }}</p>
+			<p><span class="h5">Message: </span>{{ @T_ERROR.text }}</p>
+			<p><span class="h5">Trace: </span>{{ @T_ERROR.trace }}</p>
+ </div>
+
+
+</body>
+</html>

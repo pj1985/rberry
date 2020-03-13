@@ -1,0 +1,133 @@
+<check if="{{ @T_CODE=='div start' }}">
+	<check if="{{ @T_GUI->template == 'modal' }}">
+	<div class="modal fade" id="ym_{{ @T_ID }}" role="dialog">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="{{ @T_GUI->label_class }}">{{ @T_GUI->label }}</span>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+	</check>
+	<check if="{{ @T_GUI->template == 'carousel-item' }}">
+		<div class="carousel-item <check if="{{ @T_GUI->carausel_active == 'Y' }}"> active </check>">	 
+	</check>
+	<check if="{{ @T_GUI->template == 'collapse' }}">
+		<div class="d-flex flex-column 
+		<check if="{{ @T_GUI->border != '' }}">
+			border border-{{ @T_GUI->border }} {{ @T_GUI->border_radius }} 
+		</check>
+		 <check if="{{ @T_GUI->bg_color != '' }}">
+			bg-{{ @T_GUI->bg_color }}  
+		 </check>
+		 <check if="{{ @T_GUI->shadow != '' }}">
+			{{ @T_GUI->shadow }}
+		 </check>	
+		  <check if="{{ @T_GUI->flex_width != '' }}">
+			w-{{ @T_GUI->flex_width }}
+		 </check>
+		 <check if="{{ @T_GUI->flex_height != '' }}">
+			h-{{ @T_GUI->flex_height }}
+		 </check>
+		 <check if="{{ @T_GUI->margin != '' }}">
+			m-{{ @T_GUI->margin }}  
+		 </check>
+		"> 
+		<div class="nav justify-content-end w-100  "><a role="button" class="float-right p-1 text-primary icon fa-expand" data-toggle="collapse" href="#ycl_{{ @T_ID }}"></a></div>
+		<div class="collapse 
+		 <check if="{{ @T_GUI->collapse_show == 'Y' }}">
+			show  
+		 </check>
+		" id="ycl_{{ @T_ID }}">
+	</check>
+	 <div id="{{ @T_ID }}" data-toggle="tooltip" title="{{ @T_ID_HINT }}" class="
+	 <check if="{{ @T_GUI->template != '' && @T_GUI->template != 'modal' && @T_GUI->template != 'carousel-item' && @T_GUI->template != 'collapse'  }}">
+		{{ @T_GUI->template }} 
+	 </check >
+	 <check if="{{ @T_GUI->template != 'collapse' }}">
+	 <true>
+		{{ @T_COMMON }}
+	 </true>
+	 <false>
+		  <check if="{{ @T_GUI->flex_align_items != '' }}">
+			align-items-{{ @T_GUI->flex_align_items }} 
+		 </check>		  
+		 <check if="{{ @T_GUI->flex_justify_content != '' }}">
+			justify-content-{{ @T_GUI->flex_justify_content }} 
+		 </check>	
+		 <check if="{{ @T_GUI->padding != '' }}">
+			p-{{ @T_GUI->padding }}  
+		 </check>	
+		<check if="{{ @T_GUI->small == 'Y' }}">
+			small 
+		</check>	
+		<check if="{{ @T_GUI->flex_direction != '' }}">
+			flex-{{ @T_GUI->flex_direction }}
+		</check>		
+	 </false>
+	 </check>
+	 <check if="{{ @T_MODE == 'prod' }}">
+	 {{ @T_GUI->position }}
+	 </check>
+	 {{ @T_GUI->class }}
+	 ">
+	 <check if="{{ @T_GUI->label != ''  && @T_GUI->template != 'modal'  && @T_GUI->template != 'carousel-item'}}">
+		 <check if="{{ @T_GUI->template == 'card' }}">
+		 <true>
+			 <div class="card-header {{ @T_GUI->label_class }}">{{ @T_GUI->label }}
+			 <check if="{{ @T_GUI->badge_text != '' }}">
+				<span class="badge badge-{{ @T_GUI->badge_color }}">{{ @T_GUI->badge_text }}</span>
+			</check>
+			</div>
+		</true>
+		<false>
+		<legend class="{{ @T_GUI->label_class }}">{{ @T_GUI->label }} </legend>
+		<check if="{{ @T_GUI->badge_text != '' }}">
+				<span class="badge badge-{{ @T_GUI->badge_color }}">{{ @T_GUI->badge_text }}</span>
+		</check>
+		</false>
+		</check>
+	</check>
+	<check if="{{ @T_GUI->template == 'carousel' }}">
+		<div id="yc_{{ @T_ID }}" class="w-100 carousel slide " data-ride="carousel">
+			<div class="carousel-inner" style="padding-left:1rem;padding-right:1rem;" >
+	</check>
+	<check if="{{ @T_GUI->template == 'card' }}">
+		<div class="card-body">
+	</check>
+</check>
+<check if="{{ @T_CODE=='div end' }}">
+	<check if="{{ @T_GUI->template == 'carousel' }}">
+	</div>
+		  <a class="carousel-control-prev justify-content-start" style="width:min-content;" href="#yc_{{ @T_ID }}" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon bg-primary h-100"  aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		  </a>
+		  <a class="carousel-control-next justify-content-end" style="width:min-content;" href="#yc_{{ @T_ID }}" role="button" data-slide="next">
+			<span class="carousel-control-next-icon bg-primary h-100" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		  </a>
+		<script>
+		$('#yc_{{ @T_ID }}').carousel({
+		  interval: false
+		});
+		</script>
+	</div>
+	</check>
+	<check if="{{ @T_GUI->template == 'carousel-item' }}">
+		</div>	 
+	</check>
+	<check if="{{ @T_GUI->template == 'card' }}">
+	</div> 
+ 	</check>
+	</div>
+	<check if="{{ @T_GUI->template == 'collapse' }}">
+	</div> 	
+	</div> 	 
+	
+	</check>
+	<check if="{{ @T_GUI->template == 'modal' }}">
+	</div>
+	</div>
+	</div>
+	</check>
+</check>

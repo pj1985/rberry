@@ -1,0 +1,10 @@
+<script>
+$('[id^=xx_]').on("dblclick", function(e) {
+	e.stopPropagation();
+	showModal('', $(this).attr('id').replace('xx_', ''));
+});
+$('.carousel').carousel({
+	  interval: false
+});
+</script>
+ 

@@ -1,0 +1,365 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>{{ @T_SETTINGS->title }}</title>
+ 
+<!-- Code generated with Raspberry framework (https://github.com/pj1985/rberry) -->
+ 
+ 
+<!-- Cookie js -->
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+ 
+<!-- Bootstrap -->
+<link href="{{ @path_ui }}/css/{{ @T_THEME }}.css" rel="stylesheet" type="text/css" />
+<script src="{{ @path_jquery }}"></script>
+<script src="{{ @path_popper }}"></script>
+<script src="{{ @path_bootstrap_min }}"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="{{ @path_font_awesome }}">
+
+<!-- Chart js -->
+<script src="{{ @path_charts }}"></script>
+
+<!-- resizableColumns js -->
+<script src="{{ @path_ui }}/js/jquery-resizable-columns/dist/jquery.resizableColumns.js"></script>
+<link rel="stylesheet"  href="{{ @path_ui }}/js/jquery-resizable-columns/dist/jquery.resizableColumns.css"></script>
+
+<!-- store js -->
+<!-- <script src="{{ @path_ui }}/js/store/dist/store.js"></script> -->
+
+<!-- table export js -->
+<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+<script src="https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF/jspdf.min.js"></script>
+<script src="https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+
+<!-- bootstrap-table -->
+<link href="{{ @path_ui }}/js/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet"> 
+
+<script src="{{ @path_ui }}/js/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<script src="{{ @path_ui }}/js/bootstrap-table/dist/extensions/resizable/bootstrap-table-resizable.min.js"></script>
+<script src="{{ @path_ui }}/js/bootstrap-table/dist/extensions/reorder-columns/bootstrap-table-reorder-columns.min.js"></script>
+<script src="{{ @path_ui }}/js/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script src="{{ @path_ui }}/js/bootstrap-table/dist/extensions/cookie/bootstrap-table-cookie.min.js"></script>
+
+<script>
+	<!-- TODO move to separate file -->
+	var chart_cfg = [];
+	var chart = [];
+	var option_tab_chart_line = {					
+		responsive: false,
+		maintainAspectRatio: true,
+		title: {
+			display: false						
+		},
+		legend: {
+			display: false
+		},
+		elements: {
+			point : {
+				pointStyle:'dash',
+				radius:0
+			}
+		},
+		tooltips: {
+			position:'nearest',
+			mode:'nearest',
+			intersect:false	
+		},					 
+		scales: {
+			xAxes: [{
+				display:false,
+				gridLines: {
+					display: false,
+					drawBorder: false
+				}
+			}],
+			yAxes: [{
+				display:false,
+				gridLines: {
+					display: false,
+					drawBorder: false
+				}							 
+			}]
+		}
+	};
+	var option_tab_pie = {					
+			maintainAspectRatio: true,
+			responsive:false,
+			title: {
+				display: false						
+			},
+			legend: {
+				display: false
+			},
+			tooltips: {
+				position:'nearest',
+				mode:'index',
+				intersect:true					
+			},
+			scales: {
+				xAxes: [{
+					display:false,
+					gridLines: {
+						display: false,
+						drawBorder: false
+					}
+				}],
+				yAxes: [{
+					display:false,
+					gridLines: {
+						display: false,
+						drawBorder: false
+					}							 
+				}]
+			}
+		};
+	var option_data_line = {					
+			responsive: true,
+			maintainAspectRatio: false,
+			title: {
+				display: false						
+			},
+			legend: {
+				display: false
+			},
+			elements: {
+				point : {
+					pointStyle:'dash'
+				}
+			},
+			tooltips: {
+				position:'nearest',
+				mode:'nearest',
+				intersect:false					
+			},					 
+			scales: {
+				xAxes: [{
+					display:false,
+					gridLines: {
+						display: false,
+						drawBorder: false
+					}
+				}],
+				yAxes: [{
+					display:false,
+					gridLines: {
+						display: false,
+						drawBorder: false
+					}							 
+				}]
+			}
+		};
+		var option_data_pie = {					
+			responsive: true,
+			maintainAspectRatio: false,
+			title: {
+				display: false						
+			},
+			legend: {
+				display: false
+			},
+			tooltips: {
+				position:'nearest',
+				mode:'index',
+				intersect:true					
+			},
+			scales: {
+				xAxes: [{
+					display:false,
+					gridLines: {
+						display: false,
+						drawBorder: false
+					}
+				}],
+				yAxes: [{
+					display:false,
+					gridLines: {
+						display: false,
+						drawBorder: false
+					}							 
+				}]
+			}
+		}
+</script>
+</head>
+<style>
+	html {
+	  scroll-behavior: smooth;
+	}
+	/* Navbar icon class */
+	.icon-nav {
+		font-family: FontAwesome;
+		font-size:1.1rem;
+		cursor: pointer !important;
+		opacity: 0.7;
+		 
+	}
+	/* Table row on hover class */
+	.y_row_select {
+		cursor: pointer;
+	}
+	.icon {
+		font-family: FontAwesome; 
+	}
+	/* Toasts */
+	.y_toast {
+		min-width:100px;
+	
+	}
+	/* Search input in table component */
+	.search-input {
+		height: 1.85rem;
+	}
+	<check if="{{ $T_NAV->LEFT }}">
+	/* The side navigation menu */
+	.sidenav {
+	  height: 100%;  
+	  width: 0;  
+	  position: fixed;  
+	  z-index: 1;  
+	  top: 0; 
+	  left: 0;
+	  background-color: $gray-600; 
+	  overflow-x: hidden; 
+	  padding-top: 40px;  
+	  transition: 0.5s;  
+	}
+
+	/* The navigation menu links */
+	.sidenav a {
+	  padding: 8px 8px 8px 32px;
+	  display: block;
+	  transition: 0.5s;
+	}
+
+
+	/* Position and style the close button (top right corner) */
+	.sidenav .closebtn {
+	  position: absolute;
+	  top: 0;
+	  z-index:1000;
+	  right: 1rem;
+	  margin-left: 1rem;
+	}
+
+	/* Push the page content to the right when you open the side navigation */
+	#y_main {
+	  transition: margin-left .5s;
+	  
+	}
+
+	/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+	@media screen and (max-height: 450px) {
+	  .sidenav {padding-top: 15px;}
+	  .sidenav a {font-size: 18px;}
+	}
+	.dropdown-container {
+	  display: none;	  
+	  padding-left: 8px;
+	 
+	}
+	</check>
+	{{ @T_SETTINGS->css }}
+</style>
+<body>
+	<div id="y_main">
+	<nav class="d-flex p-0 justify-content-between ">
+		<div class="d-flex flex-row">
+		<span style="width:0.5rem;">&nbsp;</span>
+		<a class="nav-link icon-nav text-primary p-1  fa-align-justify" onclick="openNav()"></a>
+		<a class="nav-link icon-nav text-primary fa-home p-1" id="y_home" href="./" title="Home"></a>
+		</div>
+	
+		 <div class="d-flex flex-row">
+		<span class="spinner-border text-primary p-1 small d-none " id="y_spinner"></span> 
+	 
+		<check if="{{ @T_LOGIN == 'Y' }}">
+			<a href="../logout" class="float-right nav-link icon-nav text-primary fa-sign-in p-1" id="y_logout" title="Logout"></a>
+		</check>
+		<span style="width:0.5rem;">&nbsp;</span>
+		</div>
+		 
+	</nav>
+	<check if="{{ $T_NAV->TOP }}">
+	<nav id="y_nav" class="navbar navbar-default navbar-fixed-top navbar-light bg-light   p-1 ">
+	<ul class="nav nav-pills "> 
+	<repeat group="{{ $T_NAV->TOP }}" key="{{ @KEY }}" value="{{ @VAL }}">
+		<li class="nav-item dropdown ">
+		<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ @KEY }}</a>
+		<div class="dropdown-menu">
+	 	<repeat group="{{ @VAL }}" value="{{ @VAL_ITEM }}">
+			<a class="dropdown-item " href="{{ @VAL_ITEM->page }}" title="{{ @VAL_ITEM->desc }}">{{ @VAL_ITEM->item }}</a>
+		</repeat>
+		</div>
+		</li>
+	</repeat>
+	</ul>
+	</nav>
+	</check>
+	
+	
+	<check if="{{ $T_NAV->LEFT }}">
+	<div id="y_left_nav" class="sidenav bg-primary text-light">
+	<a href="javascript:void(0)" class="closebtn text-light" onclick="closeNav()">&times;</a>
+  
+	<div class="d-flex flex-column "> 
+	<repeat group="{{ $T_NAV->LEFT }}" key="{{ @KEY }}" value="{{ @VAL }}">
+		 <button class="btn btn-primary y_dropdown text-left">{{ @KEY }}</button>
+		  <div class="dropdown-container bg-light">
+			<repeat group="{{ @VAL }}" value="{{ @VAL_ITEM }}">
+			<a class="text-primary text-left" href="{{ @VAL_ITEM->page }}" title="{{ @VAL_ITEM->desc }}">{{ @VAL_ITEM->item }}</a>
+			</repeat>
+		  </div>
+	</repeat>
+	</div>
+  
+	</div>
+	
+	
+	<script>
+	/**
+	 * Set the width of the side navigation to 250px and the left margin of the page content to 250px
+	 */
+	function openNav() {
+	  document.getElementById("y_left_nav").style.width = "250px";
+	  document.getElementById("y_main").style.marginLeft = "250px";
+	}
+ 
+	/**
+	 * Set the width of the side navigation to 0 and the left margin of the page content to 0
+	 */
+	function closeNav() {
+	  document.getElementById("y_left_nav").style.width = "0";
+	  document.getElementById("y_main").style.marginLeft = "0";
+	}
+	
+	
+	$(".y_dropdown").on("click", function(e) {
+		const dropdownContent = this.nextElementSibling;
+		if (dropdownContent.style.display === "block") {
+			//dropdownContent.style.display = "none";
+			dropdownContent.style = "display:none;";
+			
+			$(this).removeClass('active');
+			//$(this).addClass('btn-primary');
+			
+		} else {
+		  //dropdownContent.style.display = "block";
+		  dropdownContent.style = "transition: all 2s linear;display:block;";
+		  //$(this).removeClass('btn-primary');
+		  $(this).addClass('active');
+		}
+				
+	});
+	</script>
+	</check>	
+	
+<div id="y_toast" style="position: absolute; top: 10; right: 0;"></div>
+
+<div class="container-fluid"  >
+<form id="y_form_dynamic" method="POST"></form>
+<form id="y_form" action="{{ @T_ACTION }}" method="POST">
+<input type="hidden" id="y_page" value="{{ @T_PAGE }}">

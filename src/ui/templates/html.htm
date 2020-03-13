@@ -1,0 +1,17 @@
+ <check if="{{ @T_CODE=='html' }}">
+	<div class="form-group 
+	{{ @T_COMMON }}
+	  <check if="{{ @T_GUI->subtype != '' }}">
+		{{ @T_GUI->subtype }} 
+	 </check>
+	  <check if="{{ @T_GUI->color != '' }}">
+		text-{{ @T_GUI->color }} 
+	 </check>
+	 {{ @T_GUI->class }}
+	">
+	<check if="{{ @T_GUI->badge_text != '' }}">
+		<span class="badge badge-{{ @T_GUI->badge_color }}">{{ @T_GUI->badge_text }}</span>
+	</check>
+    <span id="{{ @T_ID }}">{{ @T_GUI->text | raw}}</span>
+	</div>
+</check>

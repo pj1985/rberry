@@ -1,0 +1,71 @@
+ <check if="{{ @T_CODE=='chart' }}">
+	<div class="{{ @T_COMMON }} {{ @T_GUI->class }}">
+	<legend class="{{ @T_GUI->label_class }}">{{ @T_GUI->label }}</legend>
+	<canvas id="{{ @T_ID }}" class="chartjs y_chart"></canvas>
+	<input type="hidden" id="y_binds_{{ @T_ID }}" value="{{ @T_GUI->binds }}"></input>
+    <script>
+		chart_cfg['{{ @T_ID }}'] = {
+			"type":"{{ @T_GUI->subtype }}",
+			data:{},
+			options:{
+				responsive:<check if="{{ @T_GUI->responsive=='N' }}"><true>false</true><false>true</false></check>,
+				maintainAspectRatio:<check if="{{ @T_GUI->maintain_aspect=='N' }}"><true>false</true><false>true</false></check>,
+				title: {
+					display: <check if="{{ @T_GUI->display_title=='N' }}"><true>false</true><false>true</false></check>,					
+				},
+				legend: {
+					display: <check if="{{ @T_GUI->display_legend=='N' }}"><true>false</true><false>true</false></check>,		
+					<check if="{{ @T_GUI->position_legend !='' }}">position:'{{ @T_GUI->position_legend }}',</check>	
+				},
+				elements: {
+					point : {
+						<check if="{{ @T_GUI->ds1_pointStyle!='' }}">
+						<true>pointStyle:'{{ @T_GUI->ds1_pointStyle }}',radius:2</true>
+						<false>pointStyle:'dash',
+						radius:0
+						</false>
+						</check>
+					}
+				},
+				tooltips: {
+					{{ @T_GUI->tooltips }}
+				},	
+				scales: {
+					<check if="{{ @T_GUI->display_x=='N' }}"><true> 
+					xAxes: [{
+						display:false,
+						gridLines: {
+							display: false,
+							drawBorder: false
+						}
+					}],</true><false></false></check>
+					<check if="{{ @T_GUI->display_y=='N' }}"><true> 
+					yAxes: [{
+						display:false,
+						gridLines: {
+							display: false,
+							drawBorder: false
+						}							 
+					}]</true><false></false></check>
+				},
+			 showLines:<check if="{{ @T_GUI->show_lines=='Y' }}"><true>true</true><false>false</false></check>,
+			 spanGaps:<check if="{{ @T_GUI->snap_gaps=='Y' }}"><true>true</true><false>false</false></check>,
+			 <check if="{{ @T_GUI->auto_refresh!='' }} && @T_MODE == 'prod'">
+			 animation: {
+				duration: 0 // general animation time
+				},
+			</check>
+			}
+		}
+		chart['{{ @T_ID }}'] =  new Chart(
+			document.getElementById("{{ @T_ID }}")
+			,chart_cfg['{{ @T_ID }}']);
+		<check if="{{ @T_GUI->auto_refresh!='' }} && @T_MODE == 'prod'">
+			var int_{{ @T_ID }} = setInterval(function(){
+			ext_get_chart_data('{{ @T_ID }}');
+			}, {{ @T_GUI->auto_refresh }}000);
+		</check>
+	</script>
+
+	</div>
+</check>

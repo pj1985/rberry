@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ @T_TITLE }}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+   <!-- Bootstrap -->
+<link href="{{ @path_ui }}/css/{{ @T_THEME }}.css" rel="stylesheet" type="text/css" />
+ 
+<script src="{{ @path_jquery }}"></script>
+<script src="{{ @path_popper }}"></script>
+<script src="{{ @path_bootstrap_min }}"></script>
+
+ <!-- Font Awesome -->
+<link rel="stylesheet" href="{{ @path_font_awesome }}">
+<title>{{ @T_APP }}</title>
+  <style>
+.wrapper {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.form-signin {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 30px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 20px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+  </style>
+  
+ </head>
+ <body class="text-center">
+	<check if="{{ isset(@T_MESSAGE) }}">
+			<div class="alert alert-danger" role="alert">
+			  {{ @T_MESSAGE }}
+			</div>
+      <div class="alert alert-info" role="alert">
+        {{ @T_INFO }}
+      </div>
+	</check>
+		 
+	<div class="wrapper">
+    <form method="post" action="chgpwd" class="form-signin">  
+		
+	  <h2 class="display-5 text-muted">Change password</h2>
+      <div class="form-group">
+		<label for="user_id" class="sr-only">User ID</label>
+		<input type="text" id="user_id" name="user_id" class="form-control" placeholder="User" required autofocus>
+		</div>
+      <div class="form-group">
+      <label for="old_password" class="sr-only">Old Password</label>
+      <input type="password" id="old_password" name="old_password" class="form-control" placeholder="Old Password" required>
+      </div>
+	  <div class="form-group">
+      <label for="new_password" class="sr-only">New Password</label>
+      <input type="password" id="new_password" name="new_password" class="form-control" placeholder="New Password" required>
+      </div>
+	  <div class="form-group">
+      <label for="new_password2" class="sr-only">New Password (retype)</label>
+      <input type="password" id="new_password2" name="new_password2" class="form-control" placeholder="New Password" required>
+      </div>
+	  <check if="{{ @T_MESSAGE == '1' }}">
+		 <div class="form-group">
+		<p>
+			<label for="captcha"><small>CAPTCHA</small></label><br />
+			<img src="{{ @captcha }}" title="captcha" />
+			<input id="captcha" name="captcha" type="text" />
+		</p>
+		</div>
+		</check>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Change</button> 
+	<div	class="text-muted  flex-row-reverse"><a href="login">Login</a></div>	  
+	  <input type="hidden" id="y_app" name="y_app" value="{{@T_APP}}">
+    </form>
+  </div>
+
+	
+	 
+</body>
+ 
+</html>

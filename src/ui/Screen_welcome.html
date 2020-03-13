@@ -1,0 +1,297 @@
+<!DOCTYPE HTML>
+<html lang="en">
+ <!--
+	Copyright (c) 2019 pj1985 
+	
+	This code is part of the Raspberry framework (https://github.com/pj1985/rberry)
+	
+	You can redistribute it and/or modify it under the terms of the GNU General Public License
+	as published by the Free Software Foundation, either version 3 of the License, or later.
+	
+	You should have received a copy of the GNU General Public License along
+	with Raspberry.  See http://www.gnu.org/licenses/
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Welcome to Raspberry</title>
+
+ 
+ <!-- Bootstrap -->
+<link href="{{ @main_boot_css }}" rel="stylesheet" type="text/css" />
+<script src="{{ @path_jquery }}"></script>
+<script src="{{ @path_popper }}"></script>
+<script src="{{ @path_bootstrap_min }}"></script>
+
+ <!-- Font Awesome -->
+<link rel="stylesheet" href="{{ @path_font_awesome }}">
+
+<!-- Chart js --> 
+<script src="{{ @path_chart_js }}"></script>
+ 
+</head>
+<style>
+/* Tree view CSS */
+	
+	body {
+		height:100%;
+	}
+	ul, .ul_tree {
+	  list-style-type: none;
+	}
+
+	.ul_tree {
+	  margin: 0;
+	  padding: 0;
+	}
+	
+	.caret {
+	  cursor: pointer;
+	  -webkit-user-select: none; /* Safari 3.1+ */
+	  -moz-user-select: none; /* Firefox 2+ */
+	  -ms-user-select: none; /* IE 10+ */
+	  user-select: none;
+	}
+
+	.caret::before {
+	  content: "\f04b";
+	  font-family: FontAwesome;
+	  
+	  display: inline-block;
+	  margin-right: 6px;
+	}
+
+	.caret-down::before {
+	  -ms-transform: rotate(90deg); /* IE 9 */
+	  -webkit-transform: rotate(90deg); /* Safari */'
+	  transform: rotate(90deg);  
+	}
+
+	.nested {
+	  display: none;
+	}
+
+	.active {
+	  display: block;
+	}
+	
+	.full {
+		width:100%;
+	}
+	
+	body.dragging, body.dragging * {
+	  cursor: move !important;
+	}
+
+	.dragged {
+	  position: absolute;
+	  opacity: 1;
+	  z-index: 2000;
+	}
+	.icon-move {
+		content: "\f047";
+		font-family: FontAwesome;
+		font-size:0.5rem;
+		cursor: pointer !important;
+		font-style: normal;
+		opacity: 0.1;
+	
+	}
+	.icon-nav {
+		font-family: FontAwesome;
+		font-size:1.1rem;
+		cursor: pointer !important;
+		opacity: 0.7;
+		 
+	}
+	.icon {
+		font-family: FontAwesome;		 
+	}
+	
+	.logo {
+		opacity: 0.3;
+	}
+	.logo:hover {
+		opacity: 0.9;
+	}	
+	.icon-nav:hover {
+		opacity: 1;
+	}
+	.icon-move:hover {
+		font-size:inherit;
+		opacity: 0.9;
+	
+	}
+	.sel {
+		border-color: red!important;	
+		border-top-color: red!important;
+		border-right-color: red!important;
+		border-bottom-color: red!important;
+		border-left-color: red!important;
+		border-style: solid!important;
+		border-width: thin!important;
+	}
+	.pad-slim{
+		padding-top: 0.025rem;
+		padding-right: 0.05rem;
+		padding-bottom: 0.025rem;
+		padding-left: 0.05rem;
+	}
+	@media (min-width: 1200px) {
+		.m_wide {
+			min-width:1200px;
+			width: 90%; 
+		}
+	}
+	.code {
+		page-break-inside: avoid;
+		font-family: monospace;
+		word-wrap: break-word;
+		font-size:1rem;	
+	}
+	
+	.flip-card {
+	  background-color: transparent;
+	  width: 300px;
+	  height: 200px;
+	  border: 1px solid #f1f1f1;
+	  perspective: 1000px;  
+	}
+
+	.flip-card-inner {
+	  position: relative;
+	  width: 100%;
+	  height: 100%;
+	  text-align: center;
+	  transition: transform 0.6s;
+	  transform-style: preserve-3d;
+	}
+
+	.flip-card:hover .flip-card-inner {
+	  transform: rotateY(180deg);
+	}
+
+	.flip-card-front, .flip-card-back {
+	  position: absolute;
+	  width: 100%;
+	  height: 100%;
+	  backface-visibility: hidden;
+	}
+
+	.flip-card-front {
+	  background-color: #bbb;
+	  color: black;
+	}
+
+	.flip-card-back {
+	  background-color: dodgerblue;
+	  color: white;
+	  transform: rotateY(180deg);
+	}
+	
+	
+</style>
+<body>
+<!-- Menu -->
+ 
+<!-- Toasts notification content-->
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 0px;">
+  <div class="toast bg-warning fade hide" id="D_toast" style="position: absolute; top: 10; right: 0; z-index: 1200;">
+    <div class="toast-header flex-row-reverse" id="D_toast_head">
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body" id="D_toast_body">
+    </div>
+  </div>
+</div>
+
+<div class="container">
+	<div class="d-flex flex-column m-1 ">
+    <span class="flex-row">
+		<img src="{{ @path_ui }}/images/rberry.png" style="width:10rem;" class="rounded img-fluid " alt=""></img>
+		<h1 class="display-2">Welcome to Raspberry</h1>
+	</span>
+	<hr>
+	<p class="text-dark h5">
+	Raspberry is low-code/configuration framework for creating responsive web frontend for common database systems using Bootstrap CSS templates. Raspberry is focused on developers with database background with basic knowledge of FE technologies like Bootstrap and JQuery/Javascript.
+	</p><br>
+	<p class="text-dark h5" >
+	Framework can be used for fast prototyping or for creating rich user interface for various database tools.
+	</p>
+	<div class = "m-4">
+	<h5><li><a href="https://github.com/pj1985/rberry">Github home</a></li></h5> 
+	<h5><li><a href="https://github.com/pj1985/rberry/wiki/Get-Started#configuration">Configuration Wiki</a></li></h5> 
+	<h5><li><a href="https://github.com/pj1985/rberry/wiki/Get-Started#usage">Usage Wiki</a></li></h5> 
+	</div>
+	</div>
+	<div class="m-1"></div>
+	
+	<div class="d-flex flex-row w-100 ">
+		<div class="container flex bg-light m-1">
+		<p class="h1 m-2">Applications</p>
+		 <hr>
+		 <table class="table">
+		 <thead><th>Folder</th><th>Screen Creator</th><th>Run Application</th></thead>
+		 <repeat group="{{ @dirs }}" value="{{ @f }}">
+		 <tr><td>{{ @f }}</td>
+		 <td><a href="{{ @req_uri }}{{ @f }}/edit">{{ @req_uri }}{{ @f }}/edit</a></td>
+		 <td><a href="{{ @req_uri }}{{ @f }}/run">{{ @req_uri }}{{ @f }}/run</a></td>
+			
+		</repeat>
+		 </table>
+		 <div class="m-2 float-right">
+			<button type="submit" class="btn btn-primary">Create</button>
+		 
+		</div>
+		</div>
+		<div class="container flex bg-light m-1">
+		<p class="h1 m-2">Configuration</p>
+		<hr>
+		<form action="save_config">
+		<dl class="row">
+		<dt class="col-sm-6">PHP Version:</dt>
+		<dd class="col-sm-6">{{ @php_version }}</dd>
+		<dt class="col-sm-6">Available PDO drivers:</dt>
+		<dd class="col-sm-6">
+			<repeat group="{{ @pdo_driver }}" value="{{ @f }}">
+			{{ @f }}
+			<br>
+			</repeat>
+		</dd>
+		
+		<dt class="col-sm-6">DB type:</dt>
+		<dd class="col-sm-6">{{ @db_type }}</dd>
+		
+		<dt class="col-sm-6">DB Connection:</dt>
+		<dd class="col-sm-6">{{ @db }}</dd>
+		
+		<dt class="col-sm-6">DB User:</dt>
+		<dd class="col-sm-6">{{ @user_id }}</dd>
+		
+		<dt class="col-sm-6">Connected DB Driver:</dt>
+		<dd class="col-sm-6">{{ @db_driver }}</dd>
+		
+		<dt class="col-sm-6">Connected DB Server Version:</dt>
+		<dd class="col-sm-6">{{ @db_version }}</dd>
+		
+		<dt class="col-sm-6">Logs path:</dt>
+		<dd class="col-sm-6">{{ @LOGS }}</dd>
+	 
+		</dl>
+		
+		</form>
+		</div>
+	</div>
+	<div class="container flex bg-light m-1 ">
+	{{ @changelog_md | raw  }}
+	
+	</div>
+</div>
+
+
+
+ 
+</body>
+</html>

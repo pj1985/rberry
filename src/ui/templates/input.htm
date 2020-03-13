@@ -1,0 +1,74 @@
+<check if="{{ @T_CODE=='input text' }}">
+<div class="form-group {{ @T_COMMON }} ">
+    <check if="{{ @T_GUI->mandatory == 'Y' }}"><strong></check><label for="{{ @T_ID }}" class="{{ @T_GUI->label_class }}">{{ @T_GUI->label }}</label><check if="{{ @T_GUI->mandatory == 'Y' }}"></strong></check>
+	
+	<check if="{{ @T_GUI->badge_text != '' }}">
+		<span class="badge badge-{{ @T_GUI->badge_color }}">{{ @T_GUI->badge_text }}</span>
+	</check>
+    <input type="{{ @T_GUI->subtype }}" class="form-control {{ @T_GUI->class }} 
+	<check if="{{ @T_GUI->mandatory == 'Y' }}">
+		y_mand_input
+	 </check>
+	<check if="{{ @T_GUI->refresh != '' }}">
+		y_input_refresh
+	 </check>
+	 {{ @T_EL_CSS->@T_ID }}" id="{{ @T_ID }}" name="{{ @T_ID }}" placeholder="{{ @T_GUI->placeholder }}" value="{{ @T_FORM_PARAMS->@T_ID }}" {{ @T_READONLY }}
+	 data-toggle="tooltip"  data-placement="top" title="{{ @T_GUI->tooltip }}"
+	 >
+</div>
+</check>
+<check if="{{ @T_CODE=='input hidden' }}">
+<div class="form-group {{ @T_COMMON }} ">
+	<input type="hidden" class="form-control {{ @T_GUI->class }}" id="{{ @T_ID }}" name="{{ @T_ID }}" value="{{ @T_FORM_PARAMS->@T_ID }}">
+</div>
+</check>
+<check if="{{ @T_CODE=='input hidden redirect' }}">
+	<input type="hidden" id="{{ @T_ID }}" name="{{ @T_ID }}" value="{{ @T_VAL }}"></input>	
+</check>
+<check if="{{ @T_CODE=='input textarea' }}">
+<div class="form-group {{ @T_COMMON }} ">
+    <check if="{{ @T_GUI->mandatory == 'Y' }}"><strong></check><label for="{{ @T_ID }}" class="{{ @T_GUI->label_class }}">{{ @T_GUI->label }}</label><check if="{{ @T_GUI->mandatory == 'Y' }}"></strong></check>
+	<check if="{{ @T_GUI->badge_text != '' }}">
+		<span class="badge badge-{{ @T_GUI->badge_color }}">{{ @T_GUI->badge_text }}</span>
+	</check>
+    <textarea class="form-control {{ @T_EL_CSS->@T_ID }} {{ @T_GUI->class }} 
+	 <check if="{{ @T_GUI->mandatory == 'Y' }}">
+		y_mand_text
+	 </check>
+	 <check if="{{ @T_GUI->refresh != '' }}">
+		y_input_refresh
+	 </check>
+	" id="{{ @T_ID }}" name="{{ @T_ID }}" rows="{{ @T_GUI->rows }}" {{ @T_READONLY }}
+	data-toggle="tooltip"  data-placement="top" title="{{ @T_GUI->tooltip }}"
+	>{{ @T_FORM_PARAMS->@T_ID }}</textarea>
+</div>
+</check>
+<check if="{{ @T_CODE=='input select' }}">
+<div class="form-group {{ @T_COMMON }} ">
+    <check if="{{ @T_GUI->mandatory == 'Y' }}"><strong></check><label for="{{ @T_ID }}" class="{{ @T_GUI->label_class }}">{{ @T_GUI->label }}</label><check if="{{ @T_GUI->mandatory == 'Y' }}"></strong></check>
+	<check if="{{ @T_GUI->badge_text != '' }}">
+		<span class="badge badge-{{ @T_GUI->badge_color }}">{{ @T_GUI->badge_text }}</span>
+	</check>
+    <select class="form-control {{ @T_EL_CSS->@T_ID }} {{ @T_GUI->class }}
+	<check if="{{ @T_GUI->mandatory == 'Y' }}">
+		y_mand_select
+	 </check>
+	 <check if="{{ @T_GUI->refresh != '' }}">
+		y_input_refresh
+	 </check>
+	" id="{{ @T_ID }}" name="{{ @T_ID }}" {{ @T_READONLY }}
+	data-toggle="tooltip"  data-placement="top" title="{{ @T_GUI->tooltip }}"
+	>
+	<check if="{{ @T_GUI->add_null == 'Y' }}">
+		<option value="" 
+		<check if="{{ @T_FORM_PARAMS->@T_ID == '' }}"> selected </check> 
+		></option>
+	</check>
+	<repeat group="{{ @T_OPTION }}" value="{{ @COL }}">
+	 	<option value="{{ @COL->value }}" 
+		<check if="{{ @T_FORM_PARAMS->@T_ID == @COL->value }}"> selected </check> 
+		>{{ @COL->label }}</option>
+	</repeat>
+	</select>
+</div>
+</check>
