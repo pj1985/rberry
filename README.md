@@ -49,3 +49,5 @@ Raspberry utilizes and includes:
  - Bootstrap Table (https://github.com/wenzhixin/bootstrap-table)
  - localStorage (https://github.com/jaywcjlove/store.js)
  - jquery-resizable-columns (https://github.com/dobtco/jquery-resizable-columns)
+ - AutoTable (https://github.com/simonbengtsson/jsPDF-AutoTable)
+ - html2canvas (https://github.com/niklasvh/html2canvas)
