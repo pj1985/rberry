@@ -474,6 +474,12 @@ class gen_gui extends gen_common{
 				IF ($tab_sort == '') $tab_sort = ' ORDER BY 1 ';
 				
 			}
+			if ($f3->get('db_type') == 'MYSQL'){
+				$sql_page = ' LIMIT '.$offset.', '.$tab_rows.' ';
+				IF ($tab_sort == '') $tab_sort = ' ORDER BY "1" ';
+				 
+				
+			}
 			//if ($f3->get('db_type') == 'MYSQL')
 			//	$sql_page = ' '.($tab_sort != ''? ' ORDER BY '.$tab_sort:' ').' OFFSET '.$offset.' ROWS FETCH NEXT '.$elements[$el_id]->page. ' ROWS ONLY';
 			//$this->wlog($sql_page);
