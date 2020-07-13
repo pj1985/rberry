@@ -106,7 +106,7 @@
 	</table>
 	<check if="@T_GUI->page || @T_GUI->select_into != ''  "> 
 	<div class="d-flex flex-row-reverse align-items-center">
-		<check if="{{ @T_GUI->select_into != '' }}">
+		<check if="{{ @T_GUI->select_into == 'Y' }}">
 		<span class="btn btn-link p-2 icon-nav fa-check" id="y_tb_select_{{ @T_ID }}"></span> 
 		<script>
 		$("#y_tb_select_{{ @T_ID }}").on("click", function(e) {

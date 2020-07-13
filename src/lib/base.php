@@ -997,7 +997,7 @@ final class Base extends Prefab implements ArrayAccess {
 		$code.=($code?',':'').$this->fallback;
 		$this->languages=[];
 		foreach (array_reverse(explode(',',$code)) as $lang)
-			if (preg_match('/^(\w{2})(?:-(\w{2}))?\b/i',$lang,$parts)) {
+			if (preg_match('/^(\w{2})(?:\-(\w{2}))?\b/i',$lang,$parts)) {
 				// Generic language
 				array_unshift($this->languages,$parts[1]);
 				if (isset($parts[2])) {
