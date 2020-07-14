@@ -62,6 +62,35 @@ function loadContextMenu(){
 	$('#context-menu').html(ht);
 } 
  /**
+ * Generate identification cookie for screen creator session to generate history files for page configurations
+ */
+function get_ScreenCrtID(){
+	let s = Cookies.get("ScreenCrtId");
+	
+	if (!s){
+		let r = Math.floor(Math.random() * 10000000);
+		s = r.toString(16);
+		console.log('New id:')
+		Cookies.set("ScreenCrtId", s);
+	}
+	
+	return s;
+}
+ /**
+ * Generate step (iterator) cookie for screen creator session to generate history files for page configurations
+ */
+function get_ScreenStep(){
+	let s = Cookies.get("ScreenStep");
+	
+	if (!s){
+		Cookies.set("ScreenStep", 1);
+	} else {
+		Cookies.set("ScreenStep", String(Number(s)+1));
+	}
+	return s;
+}
+
+ /**
  * Send json page configuration to Rberry core to generate HTML preview
  */
 function ext_gen(){
@@ -69,8 +98,10 @@ function ext_gen(){
 	$('#spinner').removeClass('d-none');
 	$.post('edit/gen', { data: 
 		JSON.stringify(j_page, null, ' ')
-
+		, ScreenCrtID: get_ScreenCrtID()
+		, ScreenStep: get_ScreenStep()
 	}, function (data) {
+		//console.log('Cookie:'+get_ScreenCrtID());
 		$('#D_Screen').html(data);
 		$('#spinner').addClass('d-none');
 	}); 
@@ -151,6 +182,30 @@ function ext_get_logs(i_log) {
 
 	}, function (data) {
 		$('#D_Logs').html(data);
+		$('#spinner').addClass('d-none');
+	}); 
+}
+/**
+ * Load history for page configuration
+ * @i_log {String} log file name
+ */
+function ext_get_history(i_hist) {
+
+	$('#spinner').removeClass('d-none');
+	$.post('edit/get_history_files', { hist_file:i_hist, ScreenCrtID: get_ScreenCrtID()
+
+	}, function (data) {
+		$('#spinner').removeClass('d-none');
+		if (i_hist){
+			$('#M_History').modal('hide');
+			j_page = JSON.parse(data);
+			$( ".srt").sortable("destroy");
+			showRegionTree();
+			refreshTree();
+			ext_gen();
+		}
+		else 
+			$('#D_History').html(data);
 		$('#spinner').addClass('d-none');
 	}); 
 }
@@ -2245,6 +2300,14 @@ function filterDeleted(value) {
 	$(".GotoLogs").on('click', function(e) {
 		ext_get_logs();
 		$('#M_Logs').modal({
+			backdrop: 'static',
+			keyboard: true
+		})
+	});
+	
+	$("#GotoHistory").on('click', function(e) {
+		ext_get_history();
+		$('#M_History').modal({
 			backdrop: 'static',
 			keyboard: true
 		})

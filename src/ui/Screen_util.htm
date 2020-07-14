@@ -38,6 +38,9 @@
  <check if="{{ @T_CODE=='LOG_LIST' }}">
 <p class="m-0"><a href="#" class="btn btn-light w-100"   onclick="ext_get_logs('{{ @T_FILENAME }}');return false;">{{@T_FILENAME}}</a></p>
 </check>
+<check if="{{ @T_CODE=='HIST_LIST' }}">
+<p class="m-0"><a href="#" class="btn btn-light w-100"   onclick="ext_get_history('{{ @T_FILENAME }}');return false;">{{@T_FILENAME_SHOW}}</a></p>
+</check>
  <check if="{{ @T_CODE=='SQL_MESSAGE' }}">
 <span class="code w-100">{{ @T_SQL_MESSAGE | raw }}</span>
 </check>

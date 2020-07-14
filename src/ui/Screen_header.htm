@@ -9,7 +9,7 @@
  
  
 <!-- Cookie js -->
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="{{ @path_cookie_js }}"></script>
  
 <!-- Bootstrap -->
 <link href="{{ @path_ui }}/css/{{ @T_THEME }}.css" rel="stylesheet" type="text/css" />
@@ -31,9 +31,9 @@
 <!-- <script src="{{ @path_ui }}/js/store/dist/store.js"></script> -->
 
 <!-- table export js -->
-<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
-<script src="https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF/jspdf.min.js"></script>
-<script src="https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+<script src="{{ @path_table_export }}"></script>
+<script src="{{ @path_table_jspdf }}"></script>
+<script src="{{ @path_table_autotable }}"></script>
 
 <!-- bootstrap-table -->
 <link href="{{ @path_ui }}/js/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet"> 

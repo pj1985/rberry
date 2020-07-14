@@ -13,6 +13,8 @@
 AUTOLOAD=app/
 ; Remove next line (if you ever plan to put this app in production)
 DEBUG=2
+;Default number of stored previous page configurations for session
+HIST_COUNT=50
 ; Mode of the framework - DEVEL/PROD. PROD mode is only tu run applications
 APP_MODE=DEVEL
 ; Where errors are logged
@@ -70,3 +72,11 @@ path_charts=https://cdn.jsdelivr.net/npm/chart.js@2.8.0
 path_font_awesome=http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css
 ; Chart js
 path_chart_js=https://cdn.jsdelivr.net/npm/chart.js@2.8.0
+; Cookie js
+path_cookie_js=https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js
+; Table export
+path_table_export=https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js
+path_table_jspdf=https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF/jspdf.min.js
+path_table_autotable=https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js
+;JSPDF debug
+path_jspdf_debug=https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js

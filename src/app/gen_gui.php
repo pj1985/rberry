@@ -478,11 +478,7 @@ class gen_gui extends gen_common{
 				$sql_page = ' LIMIT '.$offset.', '.$tab_rows.' ';
 				IF ($tab_sort == '') $tab_sort = ' ORDER BY "1" ';
 				 
-				
 			}
-			//if ($f3->get('db_type') == 'MYSQL')
-			//	$sql_page = ' '.($tab_sort != ''? ' ORDER BY '.$tab_sort:' ').' OFFSET '.$offset.' ROWS FETCH NEXT '.$elements[$el_id]->page. ' ROWS ONLY';
-			//$this->wlog($sql_page);
 		}
 		
 		$sql = $sql.$tab_sort.$sql_page;
@@ -964,7 +960,7 @@ class gen_gui extends gen_common{
 			
 			$ht = '';
 			$this->wlog('get list');
-			$files = array_diff(scandir("assets/".$f3->get('PARAMS.app')), array('.', '..', '_meta.j'));
+			$files = array_diff(scandir("assets/".$f3->get('PARAMS.app')), array('.', '..', '_meta.j', 'hist'));
 			$f3->set('T_CODE', 'PAGE_CARD' );
 			foreach ($files	as $val){
 				$fl = json_decode(file_get_contents("assets/".$f3->get('PARAMS.app')."/".$val));
@@ -1020,6 +1016,48 @@ class gen_gui extends gen_common{
 		}
 		
 	}
+	function get_history_files ($f3, $args) {
+		
+		$ScreenCrtID = $f3->get('POST.ScreenCrtID',TRUE);
+		
+		if ($f3->get('POST.hist_file',TRUE)){
+			
+			
+			$fl = file_get_contents("assets/".$f3->get('PARAMS.app')."/hist/".$ScreenCrtID."/".$f3->get('POST.hist_file',TRUE));
+			
+			echo $fl;
+			
+			 
+			/*
+			foreach ($lines as $line_num => $line) {
+				if (strpos($line, 'error') !== false)
+					echo htmlspecialchars($line);
+				else 
+					echo htmlspecialchars($line);
+			}*/	
+			//$fl = file_get_contents("logs/".$f3->get('POST.log_file',TRUE));
+			
+			//echo $fl;
+		}else {
+			$i = 1;
+			$this->wlog('get hist');
+			$files = array_diff(scandir("assets/".$f3->get('PARAMS.app')."/hist/".$ScreenCrtID, SCANDIR_SORT_DESCENDING), array('.', '..'));
+			$f3->set('T_CODE', 'HIST_LIST' );
+			foreach ($files	as $val){
+				if ($i < $f3->get('HIST_COUNT')) {
+					$f3->set('T_FILENAME', $val );
+					$f3->set('T_FILENAME_SHOW',  str_replace('.j', '' ,preg_replace('/^[0-9]+_/', '', $val ))." - ".  date("Y-m-d H:i:s",filemtime("assets/".$f3->get('PARAMS.app')."/hist/".$ScreenCrtID."/".$val)));
+				
+					echo Template::instance()->render('Screen_util.htm');
+					$i += 1;
+				}
+				else {
+					//delete older files
+					unlink("assets/".$f3->get('PARAMS.app')."/hist/".$ScreenCrtID."/".$val);
+				}
+			} 
+		}
+	}
 	function get_menu ($f3, $args) {
 		 
 		echo file_get_contents("assets/".$f3->get('PARAMS.app')."/_meta.j");
@@ -1049,6 +1087,16 @@ class gen_gui extends gen_common{
 		);*/
 		
 		$this->gui = json_decode($f3->get('POST.data',TRUE));
+		$ScreenCrtID = $f3->get('POST.ScreenCrtID');
+		$ScreenStep = $f3->get('POST.ScreenStep');
+		
+		if (!file_exists("assets/".$f3->get('PARAMS.app')."/hist/".$ScreenCrtID)) {
+			mkdir("assets/".$f3->get('PARAMS.app')."/hist/".$ScreenCrtID, 0777, true);
+		}
+		
+		file_put_contents("assets/".$f3->get('PARAMS.app')."/hist/".$ScreenCrtID."/".str_pad($ScreenStep, 8, "0", STR_PAD_LEFT)."_".$this->gui->name.'.j', $f3->get('POST.data',TRUE));
+		
+		$this->wlog('ScreenCrtID:'.$ScreenCrtID);
 		
 		$f3->set('T_MODE', 'dev');
 		foreach ($this->gui->page->sort	as $val){
