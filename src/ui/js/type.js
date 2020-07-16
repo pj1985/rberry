@@ -1283,12 +1283,20 @@ var j_type = {
 			"default":"0.1",
 			"tab":"Physics"		
 		},
+		"phys_timestep":{
+			"type":"text",
+			"label":"Timestep",
+			"tooltip":"The physics simulation is discrete. This means we take a step in time, calculate the forces, move the nodes and take another step. If you increase this number the steps will be too large and the network can get unstable. If you see a lot of jittery movement in the network, you may want to reduce this value a little (for example 0.5)",
+			"mandatory":"",
+			"default":"1",
+			"tab":"Physics"		
+		},
 		"phys_stab_Iterations":{
 			"type":"text",
 			"label":"Stabilization Iterations",
 			"tooltip":"The physics module tries to stabilize the network on load up til a maximum number of iterations defined here. If the network stabilized with less, you are finished before the maximum number",
 			"mandatory":"",
-			"default":"1000",
+			"default":"100",
 			"tab":"Physics"		
 		},
 		"phys_stab_UpdateInterval":{

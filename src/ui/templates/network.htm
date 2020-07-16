@@ -64,6 +64,7 @@
 					},
 				  <check if="{{ @T_GUI->phys_maxVelocity != '' }}">maxVelocity: {{ @T_GUI->phys_maxVelocity }},</check>
 				  <check if="{{ @T_GUI->phys_minVelocity != '' }}">minVelocity: {{ @T_GUI->phys_minVelocity }},</check>
+				  <check if="{{ @T_GUI->phys_timestep != '' }}">timestep: {{ @T_GUI->phys_timestep }},</check>
 				  stabilization:{
 					enabled:true,
 					<check if="{{ @T_GUI->phys_stab_Iterations != '' }}">iterations: {{ @T_GUI->phys_stab_Iterations }},</check>
