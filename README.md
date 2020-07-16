@@ -51,3 +51,4 @@ Raspberry utilizes and includes:
  - jquery-resizable-columns (https://github.com/dobtco/jquery-resizable-columns)
  - AutoTable (https://github.com/simonbengtsson/jsPDF-AutoTable)
  - html2canvas (https://github.com/niklasvh/html2canvas)
+ - vis.js (https://almende.github.io/vis/)
