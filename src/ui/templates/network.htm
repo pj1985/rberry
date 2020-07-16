@@ -17,7 +17,7 @@
 			 <check if="{{ @T_GUI->randomSeed != '' }}">randomSeed: {{ @T_GUI->randomSeed }},</check>
 			 <check if="{{ @T_GUI->hierarchical == 'true' }}">
 				hierarchical: {
-				  enabled:false,
+				  enabled:true,
 				  <check if="{{ @T_GUI->hier_levelSeparation != '' }}">levelSeparation: {{ @T_GUI->hier_levelSeparation }},</check>
 				  <check if="{{ @T_GUI->hier_nodeSpacing != '' }}">nodeSpacing: {{ @T_GUI->hier_nodeSpacing }},</check>
 				  <check if="{{ @T_GUI->hier_treeSpacing != '' }}">treeSpacing: {{ @T_GUI->hier_treeSpacing }},</check>
