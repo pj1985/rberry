@@ -155,6 +155,61 @@ function ext_get_chart_data(i_chart){
 	}); 
 }
 /**
+ * Get data for network from backend
+ * @i_network {String} Network identificator
+ */
+function ext_get_network_data(i_network){
+	const res_nodes = $('#y_binds_node_' + i_network).val().split(",");
+	const res_edges = $('#y_binds_edge_' + i_network).val().split(",");
+	let binds_nodes = {};
+	let binds_edges = {};
+	
+	jQuery.each(res_nodes, function(i, val) {
+		if (val !== ""){
+			if ($('[name="'+val+'"]').is(":radio")){
+				if ($('[name="'+val+'"]:checked').val()) binds_nodes[':'+val] = $('[name="'+val+'"]:checked').val();
+				else binds_nodes[':'+val] = '';
+			} else {
+				if ($('[name="'+val+'"]').val()) binds_nodes[':'+val] = $('[name="'+val+'"]').val();
+				else binds_nodes[':'+val] = '';
+			}
+		}
+	});
+	
+	jQuery.each(res_edges, function(i, val) {
+		if (val !== ""){
+			if ($('[name="'+val+'"]').is(":radio")){
+				if ($('[name="'+val+'"]:checked').val()) binds_edges[':'+val] = $('[name="'+val+'"]:checked').val();
+				else binds_edges[':'+val] = '';
+			} else {
+				if ($('[name="'+val+'"]').val()) binds_edges[':'+val] = $('[name="'+val+'"]').val();
+				else binds_edges[':'+val] = '';
+			}
+		}
+	});
+	
+	$('#y_spinner').removeClass('d-none');
+	$.post('{{ @path_core }}/{{ @T_APP }}/get_network_data', { 
+		page: $('#y_page').val(),
+		el_id: i_network,
+		binds_nodes: binds_nodes,
+		binds_edges: binds_edges		
+	}).done (function (data) {
+		const j = JSON.parse(data);
+		let nodes = new vis.DataSet(j.nodes);
+		let edges = new vis.DataSet(j.edges);
+		console.log(j);
+		network[i_network].setData({'nodes':nodes, 'edges':edges});
+		network[i_network].fit();
+		$('#y_spinner').addClass('d-none');
+	}).fail(function (xhr, status, error) {
+		set_toast('GET CHART DATA', error, 'danger');
+		$('.toast').toast({delay:10000});
+		$('.toast').toast('show');
+		$('#y_spinner').addClass('d-none');
+	}); 
+}
+/**
  * Get data for data card from backend
  * @i_card {String} Card identificator
  */
@@ -256,6 +311,9 @@ function ext_get_refresh(i_id){
 					}
 					if (tp === 'data-card'){
 						ext_get_datacard_data(val);
+					}
+					if (tp === 'network'){
+						ext_get_network_data(val);
 					}
 				}).fail(function (xhr, status, error) {
 					set_toast('REFRESH DATA', error, 'danger');
@@ -445,6 +503,10 @@ $(document).ready(function() {
 	});
 	$(".y_datacard").each (function() {
 		ext_get_datacard_data($(this).attr('id'));
+	});
+	
+	$(".y_network").each (function() {
+		ext_get_network_data($(this).attr('id'));
 	});
 	
 	$(".y_tb_rows").each (function() {

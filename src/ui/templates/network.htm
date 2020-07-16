@@ -1,0 +1,88 @@
+ <check if="{{ @T_CODE=='network' }}">
+	<div class="{{ @T_COMMON }} {{ @T_GUI->class }}"
+	style="
+	<check if="{{ @T_GUI->height != '' }}">height: {{ @T_GUI->height }};</check>
+	<check if="{{ @T_GUI->width != '' }}">width: {{ @T_GUI->width }};</check>
+	"
+	>
+	<legend class="{{ @T_GUI->label_class }}">{{ @T_GUI->label }}</legend>
+	<div id="{{ @T_ID }}" class="h-100 w-100 d-inline-block <check if="{{ @T_GUI->autoload == 'Y' }}"> y_network</check>"></div>
+	<input type="hidden" id="y_binds_node_{{ @T_ID }}" value="{{ @T_GUI->nodes_binds }}"></input>
+	<input type="hidden" id="y_binds_edge_{{ @T_ID }}" value="{{ @T_GUI->edges_binds }}"></input>
+    <script>
+	
+		network_cfg['{{ @T_ID }}'] = {
+			 manipulation:false,
+			 layout: {
+			 <check if="{{ @T_GUI->randomSeed != '' }}">randomSeed: {{ @T_GUI->randomSeed }},</check>
+			 <check if="{{ @T_GUI->hierarchical == 'true' }}">
+				hierarchical: {
+				  enabled:false,
+				  <check if="{{ @T_GUI->hier_levelSeparation != '' }}">levelSeparation: {{ @T_GUI->hier_levelSeparation }},</check>
+				  <check if="{{ @T_GUI->hier_nodeSpacing != '' }}">nodeSpacing: {{ @T_GUI->hier_nodeSpacing }},</check>
+				  <check if="{{ @T_GUI->hier_treeSpacing != '' }}">treeSpacing: {{ @T_GUI->hier_treeSpacing }},</check>
+				  <check if="{{ @T_GUI->hier_blockShifting != '' }}">blockShifting: {{ @T_GUI->hier_blockShifting }},</check>
+				  <check if="{{ @T_GUI->hier_edgeMinimization != '' }}">edgeMinimization: {{ @T_GUI->hier_edgeMinimization }},</check>
+				  <check if="{{ @T_GUI->hier_parentCentralization != '' }}">parentCentralization: {{ @T_GUI->hier_parentCentralization }},</check>
+				  <check if="{{ @T_GUI->hier_direction != '' }}">direction: '{{ @T_GUI->hier_direction }}',</check>
+				  <check if="{{ @T_GUI->hier_sortMethod != '' }}">sortMethod: '{{ @T_GUI->hier_sortMethod }}',</check>
+				   
+				}			 
+			 </check>
+			 },
+			 interaction: {
+				<check if="{{ @T_GUI->int_dragNodes != '' }}">dragNodes: {{ @T_GUI->int_dragNodes }},</check>
+				<check if="{{ @T_GUI->int_dragView != '' }}">dragView: {{ @T_GUI->int_dragView }},</check>
+				<check if="{{ @T_GUI->int_hideEdgesOnDrag != '' }}">hideEdgesOnDrag: {{ @T_GUI->int_hideEdgesOnDrag }},</check>
+				<check if="{{ @T_GUI->int_hideNodesOnDrag != '' }}">hideNodesOnDrag: {{ @T_GUI->int_hideNodesOnDrag }},</check>
+				<check if="{{ @T_GUI->int_hover != '' }}">hover: {{ @T_GUI->int_hover }},</check>
+				<check if="{{ @T_GUI->int_hoverConnectedEdges != '' }}">hoverConnectedEdges: {{ @T_GUI->int_hoverConnectedEdges }},</check>
+				<check if="{{ @T_GUI->int_tooltipDelay != '' }}">tooltipDelay: {{ @T_GUI->int_tooltipDelay }},</check>
+				<check if="{{ @T_GUI->int_zoomView != '' }}">zoomView: {{ @T_GUI->int_zoomView }},</check>
+				  
+			 },
+			 nodes: {
+				shape:'{{ @T_GUI->node_shape }}',
+				<check if="{{ @T_GUI->node_borderWidth != '' }}">borderWidth: {{ @T_GUI->node_borderWidth }},</check>
+				<check if="{{ @T_GUI->node_borderWidthSelected != '' }}">borderWidthSelected: {{ @T_GUI->node_borderWidthSelected }},</check>
+			 },
+			 edges: {
+				<check if="{{ @T_GUI->edge_arrows != '' }}">arrows: '{{ @T_GUI->edge_arrows }}',</check>
+				<check if="{{ @T_GUI->edge_arrows != '' }}">smooth: {
+					type: '{{ @T_GUI->edge_arrows }}',
+					<check if="{{ @T_GUI->edge_smooth_forceDirection != '' }}">forceDirection: '{{ @T_GUI->edge_smooth_forceDirection }}',</check>
+					<check if="{{ @T_GUI->edge_smooth_roundness != '' }}">roundness: '{{ @T_GUI->edge_smooth_roundness }}',</check>
+					
+				},</check>
+			 },
+			 <check if="{{ @T_GUI->physics != '' }}">
+				physics: {
+					enabled: true,
+					'{{ @T_GUI->physics }}':{
+					<check if="{{ @T_GUI->phys_custom != '' }}">{{ @T_GUI->phys_custom }}</check>					
+					},
+				  <check if="{{ @T_GUI->phys_maxVelocity != '' }}">maxVelocity: {{ @T_GUI->phys_maxVelocity }},</check>
+				  <check if="{{ @T_GUI->phys_minVelocity != '' }}">minVelocity: {{ @T_GUI->phys_minVelocity }},</check>
+				  stabilization:{
+					enabled:true,
+					<check if="{{ @T_GUI->phys_stab_Iterations != '' }}">iterations: {{ @T_GUI->phys_stab_Iterations }},</check>
+					<check if="{{ @T_GUI->phys_stab_UpdateInterval != '' }}">updateInterval: {{ @T_GUI->phys_stab_UpdateInterval }},</check>
+					<check if="{{ @T_GUI->phys_stab_fit != '' }}">fit: {{ @T_GUI->phys_stab_fit }},</check>
+				  }
+				   
+				}			 
+			 </check>
+		}
+		network['{{ @T_ID }}'] =  new vis.Network(
+			document.getElementById("{{ @T_ID }}")
+			,{'nodes':new vis.DataSet([]), 'edges':new vis.DataSet([])}
+			,network_cfg['{{ @T_ID }}']);
+		<check if="{{ @T_GUI->auto_refresh!='' }} && @T_MODE == 'prod'">
+			var int_{{ @T_ID }} = setInterval(function(){
+			ext_get_network_data('{{ @T_ID }}');
+			}, {{ @T_GUI->auto_refresh }}000);
+		</check>
+	</script>
+
+	</div>
+</check>

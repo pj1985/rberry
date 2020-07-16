@@ -678,7 +678,7 @@ var j_type = {
 			"label":"Autoload data",
 			"tooltip":"Automatically load data on page start",
 			"mandatory":"",
-			"default":"",
+			"default":"Y",
 			"tab":"Table"
 		},
 		"select_into":{
@@ -882,6 +882,7 @@ var j_type = {
 		}
 	},
 	"progress":{
+		
 		"min_val":{
 			"type":"text",
 			"label":"Minimum value",
@@ -953,6 +954,369 @@ var j_type = {
 			"default":"",
 			"tab":"Data"
 		}
+	},
+	"network": {
+		"nodes_sql":{
+			"type":"textarea",
+			"label":"Nodes SQL",
+			"tooltip":"SQL text with bind variables. SQL result must have columns:<br>id - unique ID of the node<br>title - Title to be displayed when the user hovers over the node. The title can be an HTML element or a string containing plain text or HTML<br>label (optional) - text filled inside the node. Text can contain \n for new line and bold tags for text.<br>color (optional) - node color<br>group (optional) - node group<br>x (optional) - stored x position<br>y (optional) - stored y position<br>icon (optional) - font awesome value for icon node type<br>value (optional) - When a value is set, the nodes will be scaled using the options in the scaling node<br>level (optional) - When using the hierarchical layout, the level determines where the node is going to be positioned",
+			"mandatory":"",
+			"default":"",
+			"tab":"Data",
+			"helper":"context-input",
+			"col":"12"			
+		},
+		"nodes_binds":{
+			"type":"text",
+			"label":"Nodes Binds",
+			"tooltip":"Text",
+			"mandatory":"",
+			"default":"",
+			"tab":"Data",
+			"helper":"context-input",
+			"col":"12"			
+		},
+		"height":{
+			"type":"text",
+			"label":"Height (px, %)",
+			"tooltip":"Height",
+			"mandatory":"",
+			"default":"",
+			"tab":"Layout"			 			
+		},
+		"width":{
+			"type":"text",
+			"label":"Width (px, %)",
+			"tooltip":"Width",
+			"mandatory":"",
+			"default":"",
+			"tab":"Layout"			
+		},
+		"edges_sql":{
+			"type":"textarea",
+			"label":"Edges SQL",
+			"tooltip":"SQL text with bind variables. SQL result must have columns:<br>id - unique ID of the edge<br>from - ID of the node from<br>to - id of node to<br>label (optional) - label to show with edge<br>color (optional) - color for the edge<br>title (optional) - title for edge <br>value (optional) - when a value is set, the edges' width will be scaled u",
+			"mandatory":"",
+			"default":"",
+			"tab":"Data",
+			"helper":"context-input",
+			"col":"12"			
+		},
+		
+		"edges_binds":{
+			"type":"text",
+			"label":"Edges Binds",
+			"tooltip":"Text",
+			"mandatory":"",
+			"default":"",
+			"tab":"Data",
+			"helper":"context-input",
+			"col":"12"			
+		},
+		"auto_refresh":{
+			"type":"select",
+			"values":["", "5", "15", "30", "60", "300", "1800"],
+			"label":"Auto Refresh (in sec)",
+			"tooltip":"Network is automatically refreshed in number of seconds.",
+			"mandatory":"",
+			"default":"",
+			"tab":"Data"
+		},
+		"autoResize":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Auto Resize",
+			"tooltip":"If true, the Network will automatically detect when its container is resized, and redraw itself accordingly",
+			"mandatory":"",
+			"default":"true",
+			"tab":"Common"		
+		},
+		"autoload":{
+			"type":"select",
+			"values":["N", "Y"],
+			"label":"Autoload data",
+			"tooltip":"Automatically load data on page start",
+			"mandatory":"",
+			"default":"Y",
+			"tab":"Common"
+		},
+		"node_borderWidth":{
+			"type":"text",
+			"label":"Node Border Width",
+			"tooltip":"The width of the border of the node",
+			"mandatory":"",
+			"default":"1",
+			"tab":"Common"		
+		},
+		"node_borderWidthSelected":{
+			"type":"text",
+			"label":"Node Border Width",
+			"tooltip":"The width of the border of the node when it is selected. When undefined, the borderWidth * 2 is used",
+			"mandatory":"",
+			"default":"2",
+			"tab":"Common"		
+		},
+		"node_shape":{
+			"type":"select",
+			"values":["ellipse", "circle", "database", "box", "text", "diamond", "dot", "star", "triangle", "triangleDown", "hexagon", "square", "icon" ],
+			"label":"Node shape",
+			"tooltip":"The types with the label inside of it are: ellipse, circle, database, box, text",
+			"mandatory":"",
+			"default":"box",
+			"tab":"Common"		
+		},
+		"edge_arrows":{
+			"type":"select",
+			"values":["", "from", "to"],
+			"label":"Node shape",
+			"tooltip":"Direction to draw an arrow",
+			"mandatory":"",
+			"default":"",
+			"tab":"Common"		
+		},
+		"edge_smooth":{
+			"type":"select",
+			"values":["", "dynamic", "continuous", "discrete","diagonalCross","straightCross","horizontal","vertical","curvedCW","curvedCCW","cubicBezier"],
+			"label":"Smooth curves",
+			"tooltip":"When enabled, edge is drawn as dynamic smooth curve",
+			"mandatory":"",
+			"default":"",
+			"tab":"Common"		
+		},
+		"edge_smooth_forceDirection":{
+			"type":"select",
+			"values":["none", "horizontal","vertical"],
+			"label":"Smooth curves",
+			"tooltip":"Used for cubicBezier curves",
+			"mandatory":"",
+			"default":"none",
+			"tab":"Common"		
+		},
+		"edge_smooth_roundness":{
+			"type":"text",
+			"label":"Roundness for smooth curves",
+			"tooltip":"Accepted range: 0 .. 1.0. ",
+			"mandatory":"",
+			"default":"0.5",
+			"tab":"Common"		
+		},
+		"int_dragNodes":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Drag Nodes",
+			"tooltip":"When true, the nodes that are not fixed can be dragged by the user",
+			"mandatory":"",
+			"default":"true",
+			"tab":"Interaction"		
+		},
+		"int_dragView":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Drag View",
+			"tooltip":"When true, the view can be dragged around by the user",
+			"mandatory":"",
+			"default":"true",
+			"tab":"Interaction"		
+		},
+		"int_hideEdgesOnDrag":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Hide Edges on Drag",
+			"tooltip":"When true, the edges are not drawn when dragging the view. This can greatly speed up responsiveness on dragging, improving user experience",
+			"mandatory":"",
+			"default":"false",
+			"tab":"Interaction"		
+		},
+	
+		"int_hideNodesOnDrag":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Hide Nodes on Drag",
+			"tooltip":"	When true, the nodes are not drawn when dragging the view. This can greatly speed up responsiveness on dragging, improving user experience",
+			"mandatory":"",
+			"default":"false",
+			"tab":"Interaction"		
+		},
+		"int_hover":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Hover Nodes",
+			"tooltip":"When true, the nodes use their hover colors when the mouse moves over them.",
+			"mandatory":"",
+			"default":"false",
+			"tab":"Interaction"		
+		},
+		"int_hoverConnectedEdges":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Hover Connected Edges",
+			"tooltip":"When true, on hovering over a node, it's connecting edges are highlighted.",
+			"mandatory":"",
+			"default":"false",
+			"tab":"Interaction"		
+		},
+		"int_tooltipDelay":{
+			"type":"text",
+			"label":"Tooltip delay",
+			"tooltip":"The delay is the amount of time in milliseconds it takes before the tooltip is shown",
+			"mandatory":"",
+			"default":"",
+			"tab":"Interaction"		
+		},
+		"int_zoomView":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Zoom View",
+			"tooltip":"When true, the user can zoom in",
+			"mandatory":"",
+			"default":"true",
+			"tab":"Interaction"		
+		},
+		"randomSeed":{
+			"type":"text",
+			"label":"Seed",
+			"tooltip":"When NOT using the hierarchical layout, the nodes are randomly positioned initially. This means that the settled result is different every time. If you provide a random seed manually, the layout will be the same every time",
+			"mandatory":"",
+			"default":"",
+			"tab":"Common"		
+		},
+		"hierarchical":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Hierarchical",
+			"tooltip":"When true, layout engine positions the nodes in a hierarchical fashion",
+			"mandatory":"",
+			"default":"false",
+			"tab":"Hierarchical"		
+		},
+		"hier_levelSeparation":{
+			"type":"text",
+			"label":"Level Separation",
+			"tooltip":"The distance between the different levels",
+			"mandatory":"",
+			"default":"150",
+			"tab":"Hierarchical"		
+		},
+		"hier_nodeSpacing":{
+			"type":"text",
+			"label":"Node Spacing",
+			"tooltip":"Minimum distance between nodes on the free axis",
+			"mandatory":"",
+			"default":"100",
+			"tab":"Hierarchical"		
+		},
+		"hier_treeSpacing":{
+			"type":"text",
+			"label":"Tree Spacing",
+			"tooltip":"Distance between different trees",
+			"mandatory":"",
+			"default":"200",
+			"tab":"Hierarchical"		
+		},
+		"hier_blockShifting":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Block Shifting",
+			"tooltip":"Method for reducing whitespace. Can be used alone or together with edge minimization",
+			"mandatory":"",
+			"default":"true",
+			"tab":"Hierarchical"		
+		},
+		"hier_edgeMinimization":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Edge Minimization",
+			"tooltip":"Method for reducing whitespace. Each node will try to move along its free axis to reduce the total length of it's edges",
+			"mandatory":"",
+			"default":"true",
+			"tab":"Hierarchical"		
+		},
+		"hier_parentCentralization":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Parent Centralization",
+			"tooltip":"When true, the parents nodes will be centered again after the layout algorithm has been finished",
+			"mandatory":"",
+			"default":"true",
+			"tab":"Hierarchical"		
+		},
+		"hier_direction":{
+			"type":"select",
+			"values":["UD", "DU","LR","RL"],
+			"label":"Direction",
+			"tooltip":"The direction of the hierarchical layout: up-down, down-up, left-right, right-left",
+			"mandatory":"",
+			"default":"UD",
+			"tab":"Hierarchical"		
+		},
+		"hier_sortMethod":{
+			"type":"select",
+			"values":["hubsize", "directed"],
+			"label":"Sort Method",
+			"tooltip":"Hubsize takes the nodes with the most edges and puts them at the top.Directed adheres to the to and from data of the edges. A --> B so B is a level lower than A",
+			"mandatory":"",
+			"default":"hubsize",
+			"tab":"Hierarchical"		
+		},
+		"physics":{
+			"type":"select",
+			"values":["barnesHut", "forceAtlas2Based","repulsion", "hierarchicalRepulsion", ""],
+			"label":"Physics System",
+			"tooltip":"Enable physics system",
+			"mandatory":"",
+			"default":"barnesHut",
+			"tab":"Physics"		
+		},
+		"phys_maxVelocity":{
+			"type":"text",
+			"label":"Max Velocity",
+			"tooltip":"The physics module limits the maximum velocity of the nodes to increase the time to stabilization",
+			"mandatory":"",
+			"default":"50",
+			"tab":"Physics"		
+		},
+		"phys_minVelocity":{
+			"type":"text",
+			"label":"Min Velocity",
+			"tooltip":"Once the minimum velocity is reached for all nodes, we assume the network has been stabilized and the simulation stops",
+			"mandatory":"",
+			"default":"0.1",
+			"tab":"Physics"		
+		},
+		"phys_stab_Iterations":{
+			"type":"text",
+			"label":"Stabilization Iterations",
+			"tooltip":"The physics module tries to stabilize the network on load up til a maximum number of iterations defined here. If the network stabilized with less, you are finished before the maximum number",
+			"mandatory":"",
+			"default":"1000",
+			"tab":"Physics"		
+		},
+		"phys_stab_UpdateInterval":{
+			"type":"text",
+			"label":"Update Interval",
+			"tooltip":"When stabilizing, the DOM can freeze. You can chop the stabilization up into pieces to show a loading bar for instance",
+			"mandatory":"",
+			"default":"50",
+			"tab":"Physics"		
+		},
+		"phys_stab_fit":{
+			"type":"select",
+			"values":["true", "false"],
+			"label":"Fit After Stabilization",
+			"tooltip":"Toggle whether or not you want the view to zoom to fit all nodes when the stabilization is finished",
+			"mandatory":"",
+			"default":"true",
+			"tab":"Physics"	
+		},
+		"phys_custom":{
+			"type":"textarea",
+			"label":"Custom options",
+			"tooltip":"Algorithm-specific options in json format. To see full options visit https://visjs.github.io/vis-network/docs/network/physics.html ",
+			"mandatory":"",
+			"default":"",
+			"tab":"Physics"	
+		},
+		
 	},
 	"chart":{
 		"subtype":{

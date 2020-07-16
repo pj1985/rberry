@@ -23,9 +23,13 @@
 <!-- Chart js -->
 <script src="{{ @path_charts }}"></script>
 
+<!-- Vis js -->
+<script src="{{ @path_vis }}"></script>
+<link rel="stylesheet"  href="{{ @path_vis_css }}"></link>
+
 <!-- resizableColumns js -->
 <script src="{{ @path_ui }}/js/jquery-resizable-columns/dist/jquery.resizableColumns.js"></script>
-<link rel="stylesheet"  href="{{ @path_ui }}/js/jquery-resizable-columns/dist/jquery.resizableColumns.css"></script>
+<link rel="stylesheet"  href="{{ @path_ui }}/js/jquery-resizable-columns/dist/jquery.resizableColumns.css"></link>
 
 <!-- store js -->
 <!-- <script src="{{ @path_ui }}/js/store/dist/store.js"></script> -->
@@ -46,6 +50,8 @@
 
 <script>
 	<!-- TODO move to separate file -->
+	var network_cfg = [];
+	var network = [];
 	var chart_cfg = [];
 	var chart = [];
 	var option_tab_chart_line = {					

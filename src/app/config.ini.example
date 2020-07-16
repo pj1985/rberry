@@ -80,3 +80,6 @@ path_table_jspdf=https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF/jspdf.mi
 path_table_autotable=https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js
 ;JSPDF debug
 path_jspdf_debug=https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js
+;Vis JS
+path_vis=https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.min.js
+path_vis_css=https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.min.css

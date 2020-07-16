@@ -289,6 +289,98 @@ class gen_gui extends gen_common{
 		$this->wlog('GET_CHART_DATA END');
 		
 	}
+	function get_network_data ($f3, $args) {
+		
+		$f3->set('ONERROR',
+			function($f3) {				
+				$this->wlog('GET_NETWORK_DATA ERROR:'.$f3->get('ERROR.text'));
+			}
+		);
+		
+		$this->wlog('GET_NETWORK_DATA START');
+		 
+		$j_data = (object) array('nodes'=>[], 'edges'=>[]);
+		
+		$page = $f3->get('POST.page');
+		$this->wlog('page:'.$page);
+		$app = $f3->get('PARAMS.app');
+		$this->wlog('app:'.$app);
+		$el_id = $f3->get('POST.el_id');
+		$this->wlog('el_id:'.$el_id);
+		$binds_nodes = (array)$f3->get('POST.binds_nodes');
+		$binds_edges = (array)$f3->get('POST.binds_edges');
+		$sql_page = '';
+		
+		$fl = json_decode(file_get_contents("assets/".$app."/".$page.".j"));
+		$elements = (array) $fl->page;
+		
+		
+		$this->wlog('SQL nodes:'.$this->clear_text($elements[$el_id]->nodes_sql));
+		$f3->set('T_RES_NODES', $this->db->exec($this->clear_text($elements[$el_id]->nodes_sql), $binds_nodes));
+		$this->db_check_error();
+		
+		//$this->wlog($this->db->log());
+		$this->wlog('set data nodes');
+		
+		if ($f3->get('T_RES_NODES'))
+			foreach ($f3->get('T_RES_NODES') as $r){
+				$n = [];
+				$n['id'] = ($r['Id']??$r['id']??$r['ID']);
+				$n['title'] = ($r['Title']??$r['title']??$r['TITLE']);
+				if (($r['Label']??$r['label']??$r['LABEL']))
+					$n['label'] = ($r['Label']??$r['label']??$r['LABEL']);
+				if (($r['Color']??$r['color']??$r['COLOR']))
+					$n['color'] = ($r['Color']??$r['color']??$r['COLOR']);
+				if (($r['Group']??$r['group']??$r['GROUP']))
+					$n['group'] = ($r['Group']??$r['group']??$r['GROUP']);
+				if (($r['x']??$r['X']))
+					$n['x'] = ($r['x']??$r['X']);
+				if (($r['y']??$r['Y']))
+					$n['y']= ($r['y']??$r['Y']);
+				if (($r['Icon']??$r['icon']??$r['ICON']))
+					$n['icon'] = ($r['Icon']??$r['icon']??$r['ICON']);
+				if (($r['Value']??$r['value']??$r['VALUE']))
+					$n['value'] = ($r['Value']??$r['value']??$r['VALUE']);
+				if (($r['Level']??$r['level']??$r['LEVEL']))
+					$n['level'] = ($r['Level']??$r['level']??$r['LEVEL']);	
+				
+				array_push($j_data->nodes, (object)$n);
+				
+			}
+			
+		$this->wlog('SQL edges:'.$this->clear_text($elements[$el_id]->edges_sql));
+		$f3->set('T_RES_EDGES', $this->db->exec($this->clear_text($elements[$el_id]->edges_sql), $binds_edges));
+		$this->db_check_error();
+		
+		//$this->wlog($this->db->log());
+		$this->wlog('set data nodes');
+		
+		if ($f3->get('T_RES_EDGES'))
+			foreach ($f3->get('T_RES_EDGES') as $r){
+				$e = [];
+				$e['id'] = ($r['Id']??$r['id']??$r['ID']);
+				if (($r['Title']??$r['title']??$r['TITLE']))
+					$e['title'] = ($r['Title']??$r['title']??$r['TITLE']);
+				if (($r['Label']??$r['label']??$r['LABEL']))
+					$e['label'] = ($r['Label']??$r['label']??$r['LABEL']);
+				if (($r['Color']??$r['color']??$r['COLOR']))
+					$e['color'] = ($r['Color']??$r['color']??$r['COLOR']);
+				if (($r['From']??$r['from']??$r['FROM']))
+					$e['from'] = ($r['From']??$r['from']??$r['FROM']);
+				if (($r['To']??$r['to']??$r['TO']))
+					$e['to'] = ($r['To']??$r['to']??$r['TO']);
+				if (($r['Value']??$r['value']??$r['VALUE']))
+					$e['value'] = ($r['Value']??$r['value']??$r['VALUE']);
+			 	
+				array_push($j_data->edges, (object)$e);
+				
+			}
+		
+		echo json_encode($j_data);	
+		
+		$this->wlog('GET_NETWORK_DATA END');
+		
+	}
 	function get_progress_data ($f3, $args) {
 		
 		$f3->set('ONERROR',
