@@ -1068,7 +1068,7 @@ var j_type = {
 		"edge_arrows":{
 			"type":"select",
 			"values":["", "from", "to"],
-			"label":"Node shape",
+			"label":"Edge arrow",
 			"tooltip":"Direction to draw an arrow",
 			"mandatory":"",
 			"default":"",
@@ -1288,7 +1288,7 @@ var j_type = {
 			"label":"Timestep",
 			"tooltip":"The physics simulation is discrete. This means we take a step in time, calculate the forces, move the nodes and take another step. If you increase this number the steps will be too large and the network can get unstable. If you see a lot of jittery movement in the network, you may want to reduce this value a little (for example 0.5)",
 			"mandatory":"",
-			"default":"1",
+			"default":"2",
 			"tab":"Physics"		
 		},
 		"phys_stab_Iterations":{

@@ -55,6 +55,7 @@ function column_Fa(value, row) {
  * @i_page {String} Current page
  */
 function ext_get_table_data(i_tab){
+	$('#y_tb_'+i_tab).addClass('loading');
 	const res = $('#y_binds_' + i_tab).val().split(",");
 	let binds = {};
 	jQuery.each(res, function(i, val) {
@@ -106,6 +107,7 @@ function ext_get_table_data(i_tab){
 				
 			});
 		}
+		$('#y_tb_'+i_tab).removeClass('loading');
 		$('#y_spinner').addClass('d-none');
 		
 		return; 
@@ -228,6 +230,7 @@ function ext_get_datacard_data(i_card){
 		}
 	});
 	
+	$('#'+i_card).addClass('loading');
 	$('#y_spinner').removeClass('d-none');
 	$.post('{{ @path_core }}/{{ @T_APP }}/get_datacard_data', { 
 		page: $('#y_page').val(),
@@ -236,6 +239,7 @@ function ext_get_datacard_data(i_card){
 	}).done (function (data) {
 		$('#' + i_card).html(data);
 		$('#y_spinner').addClass('d-none');
+		$('#'+i_card).removeClass('loading');
 	}).fail(function (xhr, status, error) {
 		set_toast('GET DATACARD DATA', error, 'danger');
 		$('.toast').toast({delay:10000});
